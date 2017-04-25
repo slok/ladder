@@ -1,0 +1,14 @@
+# This is the official list of people who have contributed code to Ladder.
+#
+# The AUTHORS file lists the copyright holders; this file lists people. For
+# example, TheMotion (Next Chance Assets s.l.) employees are listed here but
+# not in AUTHORS, because TheMotion (Next Chance Assets s.l.) holds the
+# copyright.
+#
+# You can update this list using the following command:
+#
+# % git shortlog -se | awk '{print $2 " " $3 " " $4}'
+#
+# Please keep this file sorted, and group users with multiple emails.
+
+Xabier Larrakoetxea <slok69@gmail.com>
