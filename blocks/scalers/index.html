@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+  
+  
+  
+  
+   <html class="no-js"> 
+
+  <head lang="en-us">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=10" />
+    <title>Scalers - Ladder documentation</title>
+    <meta name="generator" content="Hugo 0.17" />
+
+    
+    <meta name="description" content="A flexible and reliable autoscaler">
+    
+    <link rel="canonical" href="https://themotion.github.io/ladder/blocks/scalers/">
+    
+    <meta name="author" content="TheMotion">
+    
+
+    <meta property="og:url" content="https://themotion.github.io/ladder/blocks/scalers/">
+    <meta property="og:title" content="Ladder documentation">
+    <meta property="og:image" content="https://themotion.github.io/ladder/images/logo.png">
+    <meta name="apple-mobile-web-app-title" content="Ladder documentation">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <link rel="shortcut icon" type="image/x-icon" href="https://themotion.github.io/ladder/images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="https://themotion.github.io/ladder/images/favicon.ico">
+
+    <style>
+      @font-face {
+        font-family: 'Icon';
+        src: url('https://themotion.github.io/ladder/fonts/icon.eot?52m981');
+        src: url('https://themotion.github.io/ladder/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+             url('https://themotion.github.io/ladder/fonts/icon.woff?52m981')
+               format('woff'),
+             url('https://themotion.github.io/ladder/fonts/icon.ttf?52m981')
+               format('truetype'),
+             url('https://themotion.github.io/ladder/fonts/icon.svg?52m981#icon')
+               format('svg');
+        font-weight: normal;
+        font-style: normal;
+      }
+    </style>
+
+    <link rel="stylesheet" href="https://themotion.github.io/ladder/stylesheets/application.css">
+    <link rel="stylesheet" href="https://themotion.github.io/ladder/stylesheets/temporary.css">
+    <link rel="stylesheet" href="https://themotion.github.io/ladder/stylesheets/palettes.css">
+    <link rel="stylesheet" href="https://themotion.github.io/ladder/stylesheets/highlight/highlight.css">
+
+    
+    
+    
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,700|Roboto&#43;Mono">
+    <style>
+      body, input {
+        font-family: 'Roboto', Helvetica, Arial, sans-serif;
+      }
+      pre, code {
+        font-family: 'Roboto Mono', 'Courier New', 'Courier', monospace;
+      }
+    </style>
+
+    
+    <script src="https://themotion.github.io/ladder/javascripts/modernizr.js"></script>
+
+    
+
+  </head>
+  <body class="palette-primary-deep-purple palette-accent-light-blue">
+
+
+
+	
+	
+
+
+<div class="backdrop">
+	<div class="backdrop-paper"></div>
+</div>
+
+<input class="toggle" type="checkbox" id="toggle-drawer">
+<input class="toggle" type="checkbox" id="toggle-search">
+<label class="toggle-button overlay" for="toggle-drawer"></label>
+
+<header class="header">
+	<nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        Scalers
+      </div>
+    </div>
+
+    
+
+    
+    
+        
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+</header>
+
+<main class="main">
+	<div class="drawer">
+		<nav aria-label="Navigation">
+  <a href="https://github.com/themotion/ladder" class="project">
+    <div class="banner">
+      
+        <div class="logo">
+          <img src="https://themotion.github.io/ladder/images/logo.png">
+        </div>
+      
+      <div class="name">
+        <strong>Ladder documentation <span class="version">1.0.0</span></strong>
+        
+          <br>
+          themotion/ladder
+        
+      </div>
+    </div>
+  </a>
+
+  <div class="scrollable">
+    <div class="wrapper">
+      
+        <ul class="repo">
+          <li class="repo-download">
+            <a href="https://github.com/themotion/ladder/archive/master.zip" target="_blank" title="Download" data-action="download">
+              <i class="icon icon-download"></i> Download
+            </a>
+          </li>
+          <li class="repo-stars">
+            <a href="https://github.com/themotion/ladder/stargazers" target="_blank" title="Stargazers" data-action="star">
+              <i class="icon icon-star"></i> Stars
+              <span class="count">&ndash;</span>
+            </a>
+          </li>
+        </ul>
+        <hr>
+      
+
+      <div class="toc">
+        
+        <ul>
+          
+
+
+
+
+<li>
+  
+    <span class="section">Introduction</span>
+    <ul>
+      
+        
+        
+
+
+
+<a  title="Overview" href="/ladder/ladder/introduction/overview/">
+	
+	Overview
+</a>
+
+
+
+      
+        
+        
+
+
+
+<a  title="Installing" href="/ladder/ladder/introduction/installing/">
+	
+	Installing
+</a>
+
+
+
+      
+    </ul>
+  
+</li>
+
+
+
+<li>
+  
+    <span class="section">Concepts</span>
+    <ul>
+      
+        
+        
+
+
+
+<a  title="Autoscaler" href="/ladder/ladder/concepts/autoscaler/">
+	
+	Autoscaler
+</a>
+
+
+
+      
+        
+        
+
+
+
+<a  title="Blocks" href="/ladder/ladder/concepts/blocks/">
+	
+	Blocks
+</a>
+
+
+
+      
+    </ul>
+  
+</li>
+
+
+
+<li>
+  
+    <span class="section">Available Blocks</span>
+    <ul>
+      
+        
+        
+
+
+
+<a  title="Gatherers" href="/ladder/ladder/blocks/gatherers/">
+	
+	Gatherers
+</a>
+
+
+
+      
+        
+        
+
+
+
+<a  title="Arrangers" href="/ladder/ladder/blocks/arrangers/">
+	
+	Arrangers
+</a>
+
+
+
+      
+        
+        
+
+
+
+<a  title="Solvers" href="/ladder/ladder/blocks/solvers/">
+	
+	Solvers
+</a>
+
+
+
+      
+        
+        
+
+
+
+<a  title="Filters" href="/ladder/ladder/blocks/filters/">
+	
+	Filters
+</a>
+
+
+
+      
+        
+        
+
+
+
+<a class="current" title="Scalers" href="/ladder/ladder/blocks/scalers/">
+	
+	Scalers
+</a>
+
+
+<ul id="scrollspy">
+</ul>
+
+
+      
+    </ul>
+  
+</li>
+
+
+
+<li>
+  
+    <span class="section">Operating</span>
+    <ul>
+      
+        
+        
+
+
+
+<a  title="Running" href="/ladder/ladder/operating/running/">
+	
+	Running
+</a>
+
+
+
+      
+        
+        
+
+
+
+<a  title="Configuration" href="/ladder/ladder/operating/configuration/">
+	
+	Configuration
+</a>
+
+
+
+      
+        
+        
+
+
+
+<a  title="Metrics" href="/ladder/ladder/operating/metrics/">
+	
+	Metrics
+</a>
+
+
+
+      
+        
+        
+
+
+
+<a  title="API" href="/ladder/ladder/operating/api/">
+	
+	API
+</a>
+
+
+
+      
+        
+        
+
+
+
+<a  title="Using as a framework" href="/ladder/ladder/operating/framework/">
+	
+	Using as a framework
+</a>
+
+
+
+      
+    </ul>
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="License" href="/ladder/ladder/license">
+	
+	License
+</a>
+
+
+
+  
+</li>
+
+
+        </ul>
+        
+
+        
+        <hr>
+        <span class="section">The author</span>
+        
+        <ul>
+          
+
+          
+
+          
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+
+	</div>
+
+	<article class="article">
+		<div class="wrapper">
+			<h1>Scalers </h1>
+
+			
+
+<h2 id="dummy">Dummy</h2>
+
+<p>Dummy scaler will return changed or not if the current quantity is same/different
+of the new quantity, if different it will be the new current</p>
+
+<h3 id="name">Name</h3>
+
+<p><code>dummy</code></p>
+
+<h3 id="options">Options:</h3>
+
+<ul>
+<li><code>wait_duration</code>: The time to wait when waiting after scaling, by default <code>0ms</code></li>
+</ul>
+
+<h3 id="example">Example</h3>
+
+<pre><code class="language-yaml">scale:
+  kind: dummy
+  config:
+    wait_duration: 5s
+</code></pre>
+
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Only used for testing</p>
+</div>
+
+<h2 id="stdout">Stdout</h2>
+
+<p>Dummy scaler will return changed or not if the current quantity is same/different
+of the new quantity, if different it will be the new current and will put a message
+with the action made (upscale or downscale)</p>
+
+<h3 id="name-1">Name</h3>
+
+<p><code>stdout</code></p>
+
+<h3 id="options-1">Options</h3>
+
+<ul>
+<li><code>message_prefix</code>: The prefix for the messages</li>
+</ul>
+
+<h3 id="example-1">Example</h3>
+
+<pre><code class="language-yaml">scale:
+  kind: stdout
+  config:
+    message_prefix: &quot;[SCALER]&quot;
+</code></pre>
+
+<h2 id="auto-scaling-group">Auto scaling group</h2>
+
+<p>Auto scaling group scaler will set the desired instances of the group to a the
+new input, if the new quantity is the same as the current it will do nothing.</p>
+
+<h3 id="name-2">Name</h3>
+
+<p><code>aws_autoscaling_group</code></p>
+
+<h3 id="options-2">Options</h3>
+
+<ul>
+<li><code>aws_region</code>: The AWS region where the auto scaling group lives</li>
+<li><code>auto_scaling_group_name</code>: The name of the autoscalingr group</li>
+<li><code>scale_up_wait_duration</code>: The time to wait after scaling up (to give time to the machines to stabilize)</li>
+<li><code>scale_down_wait_duration</code>: The time to wait after scaling down</li>
+<li><code>force_min_max</code>: boolean that will set the min and max instances properties on the asg if true</li>
+<li><code>remaining_closest_hour_limit_duration</code>:If an instance has been running for N minutes in the last hour and this time is higher than
+the minutes reminaing in this setting for the current running hour then the instance can be downscaled. Example:
+<code>remaining_closest_hour_limit_duration</code> is 10m, we have 10 instances, now want 5, 2 of them have been running in the last running hour for
+50m or more and 8 for less than 50m, the scaler will set 8 instances and not 5, because only 2 meet the requirements of &gt;=50m
+running.</li>
+<li><code>max_no_downscale_rch_limit</code>: The maximum times the filter refering to <code>remaining_closest_hour_limit_duration</code> didn&rsquo;t downscale any
+number, after this maximum times the filter will not activate and will downscale as it didn&rsquo;t apply any filtering</li>
+</ul>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If <code>scale_up_wait_duration</code> or <code>scale_down_wait_duration</code> are not defined, the scaler will wait until the desired
+number of scaled instnaces met the running instances on the ASG</p>
+</div>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If <code>remaining_closest_hour_limit_duration</code> is set to <code>0[smh]</code> or is missing, it will be disabled</p>
+</div>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If <code>remaining_closest_hour_limit_duration</code> logic doesn&rsquo;t downscale any instance for <code>max_no_downscale_rch_limit</code> opt iterations, it will downscale to the desired ones
+no matter running time of the instances, this way if there are problems with the timing calculation, pace check or whatever, it will continue downscaling as a regular iteration</p>
+</div>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>AWS invoices for a full hour, <code>remaining_closest_hour_limit_duration</code> will enable a way of maximizing the use of scaled instances,
+only downscaling to the number of instances required by the limit enables the <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/as-instance-termination.html#default-termination-policy">downscale policies</a> of AWS.</p>
+</div>
+
+<h3 id="requirements">Requirements</h3>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It will need <code>autoscaling:UpdateAutoScalingGroup</code> AWS permission policy, for example:</p>
+</div>
+
+<pre><code class="language-json">{  
+   &quot;Version&quot;:&quot;2012-10-17&quot;,
+   &quot;Statement&quot;:[  
+      {  
+         &quot;Action&quot;:&quot;autoscaling:UpdateAutoScalingGroup&quot;,
+         &quot;Resource&quot;:&quot;*&quot;,
+         &quot;Effect&quot;:&quot;Allow&quot;
+      }
+   ]
+}
+</code></pre>
+
+<h3 id="example-2">Example</h3>
+
+<pre><code class="language-yaml">scale:
+  kind: aws_autoscaling_group
+  config:
+    aws_region: &quot;us-west-2&quot;
+    auto_scaling_group_name: &quot;slok-ECSAutoScalingGroup-1PNI4RX8BD5XU&quot;  
+    scale_up_wait_duration: 5m
+    scale_down_wait_duration: 15s
+    force_min_max: true
+    remaining_closest_hour_limit_duration: 10m
+    max_no_downscale_rch_limit: 180
+
+</code></pre>
+
+<h2 id="ecs-service">ECS service</h2>
+
+<p>ECS service scaler will set the number of desired instances of an ECS service.
+if the new quantity is the same as the current it will do nothing,</p>
+
+<h3 id="name-3">Name</h3>
+
+<p><code>aws_ecs_service</code></p>
+
+<h3 id="options-3">Options</h3>
+
+<ul>
+<li><code>aws_region</code>: The AWS region where the auto scaling group lives</li>
+<li><code>cluster_name</code>: The name of the ECS cluster</li>
+<li><code>service_name</code>: The name of the service in the ECS cluster</li>
+</ul>
+
+<h3 id="requirements-1">Requirements</h3>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It will need <code>ecs:UpdateService</code> AWS permission policy, for example:</p>
+</div>
+
+<pre><code class="language-json">{  
+   &quot;Version&quot;:&quot;2012-10-17&quot;,
+   &quot;Statement&quot;:[  
+      {  
+         &quot;Action&quot;:&quot;ecs:UpdateService&quot;,
+         &quot;Resource&quot;:&quot;*&quot;,
+         &quot;Effect&quot;:&quot;Allow&quot;
+      }
+   ]
+}
+</code></pre>
+
+<h3 id="example-3">Example</h3>
+
+<pre><code class="language-yaml">scale:
+  kind: aws_ecs_service
+  config:
+    aws_region: us-west-2
+    cluster_name: slok-ECSCluster1-15OBYPKBNXIO6
+    service_name: alertmanager
+</code></pre>
+
+
+			<aside class="copyright" role="note">
+				
+				&copy; 2017 Released under the MIT license &ndash;
+				
+				Documentation built with
+				<a href="https://www.gohugo.io" target="_blank">Hugo</a>
+				using the
+				<a href="http://github.com/digitalcraftsman/hugo-material-docs" target="_blank">Material</a> theme.
+			</aside>
+
+			<footer class="footer">
+				
+
+<nav class="pagination" aria-label="Footer">
+  <div class="previous">
+  
+      <a href="https://themotion.github.io/ladder/operating/running/" title="Running">
+        <span class="direction">
+          Previous
+        </span>
+        <div class="page">
+          <div class="button button-previous" role="button" aria-label="Previous">
+            <i class="icon icon-back"></i>
+          </div>
+          <div class="stretch">
+            <div class="title">
+              Running
+            </div>
+          </div>
+        </div>
+      </a>
+  
+  </div>
+
+  <div class="next">
+  
+      <a href="https://themotion.github.io/ladder/blocks/filters/" title="Filters">
+        <span class="direction">
+          Next
+        </span>
+        <div class="page">
+          <div class="stretch">
+            <div class="title">
+              Filters
+            </div>
+          </div>
+          <div class="button button-next" role="button" aria-label="Next">
+            <i class="icon icon-forward"></i>
+          </div>
+        </div>
+      </a>
+  
+  </div>
+</nav>
+
+
+
+
+
+			</footer>
+		</div>
+	</article>
+
+	<div class="results" role="status" aria-live="polite">
+		<div class="scrollable">
+			<div class="wrapper">
+				<div class="meta"></div>
+				<div class="list"></div>
+			</div>
+		</div>
+	</div>
+</main>
+
+    <script>
+    
+      var base_url = 'https:\/\/themotion.github.io\/ladder\/';
+      var repo_id  = 'themotion\/ladder';
+    
+    </script>
+
+    <script src="https://themotion.github.io/ladder/javascripts/application.js"></script>
+    
+
+    <script>
+      /* Add headers to scrollspy */
+      var headers   = document.getElementsByTagName("h2");
+      var scrollspy = document.getElementById('scrollspy');
+
+      if(scrollspy) {
+        if(headers.length > 0) {
+          for(var i = 0; i < headers.length; i++) {
+            var li = document.createElement("li");
+            li.setAttribute("class", "anchor");
+
+            var a  = document.createElement("a");
+            a.setAttribute("href", "#" + headers[i].id);
+            a.setAttribute("title", headers[i].innerHTML);
+            a.innerHTML = headers[i].innerHTML;
+            
+            li.appendChild(a)
+            scrollspy.appendChild(li);
+          }
+        } else {
+          scrollspy.parentElement.removeChild(scrollspy)
+        }
+        
+
+        /* Add permanent link next to the headers */
+        var headers = document.querySelectorAll("h1, h2, h3, h4, h5, h6");
+
+        for(var i = 0; i < headers.length; i++) {
+            var a = document.createElement("a");
+            a.setAttribute("class", "headerlink");
+            a.setAttribute("href", "#" + headers[i].id);
+            a.setAttribute("title", "Permanent link")
+            a.innerHTML = "#";
+            headers[i].appendChild(a);
+        }
+      }
+    </script>
+
+    
+
+    <script src="//gohugo.io/js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>

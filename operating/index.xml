@@ -1,0 +1,743 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Operating-rsses on Ladder documentation</title>
+    <link>https://themotion.github.io/ladder/operating/index.xml</link>
+    <description>Recent content in Operating-rsses on Ladder documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Released under the MIT license</copyright>
+    <lastBuildDate>Sun, 01 Jan 2017 11:08:00 +0000</lastBuildDate>
+    <atom:link href="https://themotion.github.io/ladder/operating/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>API</title>
+      <link>https://themotion.github.io/ladder/operating/api/</link>
+      <pubDate>Sun, 01 Jan 2017 11:08:00 +0000</pubDate>
+      
+      <guid>https://themotion.github.io/ladder/operating/api/</guid>
+      <description>
+
+&lt;p&gt;Ladder API at this moment only has one version &lt;code&gt;v1&lt;/code&gt;, the default
+entrypoint is &lt;code&gt;/api/v1&lt;/code&gt; but this can be configured.&lt;/p&gt;
+
+&lt;h2 id=&#34;autoscalers&#34;&gt;Autoscalers&lt;/h2&gt;
+
+&lt;p&gt;Autoscalers entrypoint are prefixed with &lt;code&gt;/autoscalers&lt;/code&gt;, this entrypoints have
+the actions that can be executed on autoscalers&lt;/p&gt;
+
+&lt;h3 id=&#34;list-autoscalers&#34;&gt;List autoscalers&lt;/h3&gt;
+
+&lt;p&gt;This enpoint will return the present autoscalers and their state&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;path: &lt;code&gt;/autoscalers&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;method: &lt;code&gt;GET&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;request&#34;&gt;Request&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;curl http://ladder.host/api/v1/autoscalers
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;response&#34;&gt;Response:&lt;/h4&gt;
+
+&lt;p&gt;Code: &lt;code&gt;200&lt;/code&gt;
+Body:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-json&#34;&gt;{  
+   &amp;quot;autoscalers&amp;quot;:{  
+      &amp;quot;asg1&amp;quot;:{  
+         &amp;quot;status&amp;quot;:&amp;quot;running&amp;quot;
+      },
+      &amp;quot;asg2&amp;quot;:{  
+         &amp;quot;status&amp;quot;:&amp;quot;running&amp;quot;
+      },
+      &amp;quot;asg3&amp;quot;:{  
+         &amp;quot;status&amp;quot;:&amp;quot;stopped&amp;quot;
+      },
+      &amp;quot;asg4&amp;quot;:{  
+         &amp;quot;status&amp;quot;:&amp;quot;running&amp;quot;
+      }
+   }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;stop-autoscaler-for-a-period&#34;&gt;Stop autoscaler for a period&lt;/h3&gt;
+
+&lt;p&gt;Autoscalers state should be running, so the concept or stop for ever is not valid on Ladder
+this enpoint will stop a running autoscaler for a period of time (&lt;a href=&#34;https://golang.org/pkg/time/#ParseDuration&#34;&gt;golang duration format&lt;/a&gt; valid&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;path: &lt;code&gt;/autoscalers/{autoscaler_name}/stop/{duration}&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;method: &lt;code&gt;PUT&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For example stop &lt;code&gt;render_instances&lt;/code&gt; autoscaler for 1:30h&lt;/p&gt;
+
+&lt;h4 id=&#34;request-1&#34;&gt;Request&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;curl -XPUT http://ladder.host/api/v1/autoscalers/render_instances/stop/1h30m
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;response-when-autoscaler-running&#34;&gt;Response when autoscaler running&lt;/h4&gt;
+
+&lt;p&gt;Code: &lt;code&gt;202&lt;/code&gt;
+Body:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-json&#34;&gt;{  
+   &amp;quot;autoscaler&amp;quot;:&amp;quot;render_instances&amp;quot;,
+   &amp;quot;msg&amp;quot;:&amp;quot;Autoscaler stop request sent&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;response-when-autoscaler-already-stopped&#34;&gt;Response when autoscaler already stopped&lt;/h4&gt;
+
+&lt;p&gt;Code: &lt;code&gt;409&lt;/code&gt;
+Body:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-json&#34;&gt;{  
+   &amp;quot;data&amp;quot;:{  
+      &amp;quot;autoscaler&amp;quot;:&amp;quot;render_instances&amp;quot;,
+      &amp;quot;deadline&amp;quot;:1485267342,
+      &amp;quot;msg&amp;quot;:&amp;quot;Autoscaler already stopped&amp;quot;,
+      &amp;quot;required-action&amp;quot;:&amp;quot;Need to cancel current stop state first&amp;quot;
+   },
+   &amp;quot;error&amp;quot;:&amp;quot;Autoscaler already stopped&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;div class=&#34;admonition note&#34;&gt;
+&lt;p class=&#34;admonition-title&#34;&gt;Note&lt;/p&gt;
+&lt;p&gt;Deadline is UTC unix epoch&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&#34;cancel-an-autoscaler-stop-action&#34;&gt;Cancel an autoscaler stop action&lt;/h3&gt;
+
+&lt;p&gt;this enpoint will cancel the stop state of an autoscaler&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;path: &lt;code&gt;/autoscalers/{autoscaler_name}/cancel-stop&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;method: &lt;code&gt;PUT&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;request-2&#34;&gt;Request&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;curl -XPUT http://ladder.host/api/v1/autoscalers/render_instances/cancel-stop
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;response-when-autoscaler-stopped&#34;&gt;Response when autoscaler stopped:&lt;/h4&gt;
+
+&lt;p&gt;Code: &lt;code&gt;202&lt;/code&gt;
+Body:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-json&#34;&gt;{  
+   &amp;quot;autoscaler&amp;quot;:&amp;quot;render_instances&amp;quot;,
+   &amp;quot;msg&amp;quot;:&amp;quot;Autoscaler stop cancel request sent&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;response-when-autoscaler-running-1&#34;&gt;Response when autoscaler running:&lt;/h4&gt;
+
+&lt;p&gt;Code: &lt;code&gt;400&lt;/code&gt;
+Body:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-json&#34;&gt;{  
+   &amp;quot;data&amp;quot;:{  
+      &amp;quot;autoscaler&amp;quot;:&amp;quot;render_instances&amp;quot;,
+      &amp;quot;msg&amp;quot;:&amp;quot;Autoscaler is not stopped&amp;quot;
+   },
+   &amp;quot;error&amp;quot;:&amp;quot;Autoscaler is not stopped&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Using as a framework</title>
+      <link>https://themotion.github.io/ladder/operating/framework/</link>
+      <pubDate>Sun, 13 Nov 2016 18:02:45 +0000</pubDate>
+      
+      <guid>https://themotion.github.io/ladder/operating/framework/</guid>
+      <description>&lt;p&gt;TODO&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Metrics</title>
+      <link>https://themotion.github.io/ladder/operating/metrics/</link>
+      <pubDate>Sun, 13 Nov 2016 18:02:22 +0000</pubDate>
+      
+      <guid>https://themotion.github.io/ladder/operating/metrics/</guid>
+      <description>
+
+&lt;h2 id=&#34;prometheus&#34;&gt;Prometheus&lt;/h2&gt;
+
+&lt;p&gt;Ladder serves prometheus metrics on &lt;code&gt;/metrics&lt;/code&gt; by default, you can override this
+on the global configuration like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;metrics_path: /my/awesome/metrics
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;For now this are the available metrics:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;ladder_gatherer_quantity&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ladder_gatherer_duration_histogram_ms&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ladder_gatherer_errors_total&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ladder_inputter_quantity&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ladder_inputter_duration_histogram_ms&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ladder_inputter_errors_total&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ladder_solver_quantity&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ladder_solver_duration_histogram_ms&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ladder_solver_errors_total&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ladder_scaler_current_quantity&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ladder_scaler_current_duration_histogram_ms&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ladder_scaler_current_errors_total&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ladder_scaler_quantity&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ladder_scaler_duration_histogram_ms&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ladder_scaler_errors_total&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ladder_autoscaler_iterations_total&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ladder_autoscaler_errors_total&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ladder_autoscaler_duration_histogram_ms&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ladder_autoscaler_running&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;grafana-dashboard&#34;&gt;Grafana dashboard&lt;/h2&gt;
+
+&lt;p&gt;With the metrics that Ladder exposes to Prometheus, using along with Grafana
+you can have a very nice dashboard where you can see the state of Ladder.&lt;/p&gt;
+
+&lt;p&gt;Here you can download the &lt;a href=&#34;https://themotion.github.io/ladder/data/ladder-dashboard.json&#34;&gt;dashboard&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://themotion.github.io/ladder/img/grafana.png&#34; alt=&#34;Grafana dashboard&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Configuration</title>
+      <link>https://themotion.github.io/ladder/operating/configuration/</link>
+      <pubDate>Sun, 13 Nov 2016 18:02:13 +0000</pubDate>
+      
+      <guid>https://themotion.github.io/ladder/operating/configuration/</guid>
+      <description>
+
+&lt;h2 id=&#34;configuration-schema&#34;&gt;Configuration schema&lt;/h2&gt;
+
+&lt;p&gt;Ladder configuration is splitted in 2 main blocks, one the global configuration and
+a multiple autoscalers blocks. The main entrypoint configuration of Ladder will point
+to the other configuration files where the autoscalers are configured.&lt;/p&gt;
+
+&lt;p&gt;For example our main configuration is &lt;code&gt;ladder.yml&lt;/code&gt; (by default will be this):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;global:
+  metrics_path: /metrics
+  api_v1_path: /api/v1
+  interval: 30s
+  warmup: 3m
+  scaling_wait_timeout: 3m
+
+autoscaler_files:
+  - cfg-autoscalers/services/amis/*.yml
+  - cfg-autoscalers/services/main_cluster/*.yml
+  - cfg-autoscalers/clusters/*.yml
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This file points to our autoscalers that will reside there, see the file structure:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;./ladder.yml
+./cfg-autoscalers/
+├── clusters
+│   ├── main.yml
+│   └── wrong.json
+└── services
+    ├── amis
+    │   └── render.yml
+    └── main_cluster
+        ├── infra.yml
+        └── video.yml
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;As you see the paths are path matchers, that &lt;code&gt;wrong.json&lt;/code&gt; will be ignored.&lt;/p&gt;
+
+&lt;h2 id=&#34;global-configuration&#34;&gt;Global configuration&lt;/h2&gt;
+
+&lt;p&gt;The global configuration is the configuration that will be applied to Ladder as
+a program or by default to all the autoscalers depending on the setting&lt;/p&gt;
+
+&lt;p&gt;It starts with &lt;code&gt;global:&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;metrics_path&lt;/code&gt;: The path where the metrics can be retrieved, by default &lt;code&gt;/metrics&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;config_path&lt;/code&gt;: The path where the loaded configuration files can be retrieved, by default: &lt;code&gt;/config&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;health_check_path&lt;/code&gt;: The path where the health check will be listening, by default &lt;code&gt;/check&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;api_v1_path&lt;/code&gt;: The prefix path where the API v1 enpoints will be listening, by default &lt;code&gt;/api/v1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;interval&lt;/code&gt;: The interval the autoscaler will run the iteration process, by default &lt;code&gt;30s&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;warmup&lt;/code&gt;: The time the autoscaler will wait for the first scalation execution
+(gathering, solving&amp;hellip; will occur), by default &lt;code&gt;30s&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;scaling_wait_timeout&lt;/code&gt;: The time that will wait before giving timeout when a
+correct scalation starts the process of waiting until the target has scaled &lt;code&gt;2m&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;autoscalers-cofiguration-files&#34;&gt;Autoscalers cofiguration files&lt;/h2&gt;
+
+&lt;p&gt;Autoscaler configuration files have one or multiple autoscalers per file, thats up to you
+and how do you organize the autoscalers. For example this could be a very simple autoscaling file:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;autoscalers:
+- name: autoscaler1
+  description: &amp;quot;As1&amp;quot;
+
+  scale:
+    kind: aws_autoscaling_group
+    config:
+      aws_region: &amp;quot;us-west-2&amp;quot;
+      auto_scaling_group_name: &amp;quot;slok-ECSAutoScalingGroup-1PNI4RX8BD5XU&amp;quot;
+
+  inputters:
+  - name: aws_sqs_constant_factor
+    description: &amp;quot;Will get a number based on the queue messages and a constant factor division&amp;quot;
+    gather:
+      kind: aws_sqs
+      config:
+        queue_url: &amp;quot;https://sqs.us-west-2.amazonaws.com/016386521566/slok-render-jobs&amp;quot;
+        queue_property: &amp;quot;ApproximateNumberOfMessages&amp;quot;
+        aws_region: &amp;quot;us-west-2&amp;quot;
+
+    arrange:
+      kind: constant_factor
+      config:
+        factor: 10
+        round_type: &amp;quot;ceil&amp;quot;
+# Autoscaler 2
+- name: autoscaler2
+  description: &amp;quot;As2&amp;quot;
+
+  scale:
+    kind: aws_autoscaling_group
+    config:
+      aws_region: &amp;quot;us-west-2&amp;quot;
+      auto_scaling_group_name: &amp;quot;slok-ECSAutoScalingGroup-1PNI4RX8BD5XU&amp;quot;
+
+  inputters:
+  - name: aws_sqs_constant_factor
+    description: &amp;quot;Will get a number based on the queue messages and a constant factor division&amp;quot;
+    gather:
+      kind: aws_sqs
+      config:
+        queue_url: &amp;quot;https://sqs.us-west-2.amazonaws.com/016386521566/slok-render-jobs&amp;quot;
+        queue_property: &amp;quot;ApproximateNumberOfMessages&amp;quot;
+        aws_region: &amp;quot;us-west-2&amp;quot;
+
+    arrange:
+      kind: constant_factor
+      config:
+        factor: 10
+        round_type: &amp;quot;ceil&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;configuration-example&#34;&gt;Configuration example&lt;/h2&gt;
+
+&lt;p&gt;This is a real example of multiple autoscalers (services, clusters&amp;hellip;), the file structure is this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;.
+├── cfg-autoscalers
+│   ├── factory
+│   │   ├── analytics.yml
+│   │   ├── processing.yml
+│   │   ├── rendering.yml
+│   │   └── transcoding.yml
+│   └── infra
+│       └── cluster.yml
+└── ladder.yml
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;ladder-yml&#34;&gt;&lt;code&gt;ladder.yml&lt;/code&gt;&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;global:
+  metrics_path: /metrics
+  interval: 30s
+  warmup: 3m
+  scaling_wait_timeout: 2m
+
+autoscaler_files:
+  - &amp;quot;cfg-autoscalers/factory/*.yml&amp;quot;
+  - &amp;quot;cfg-autoscalers/infra/*.yml&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;cfg-autoscalers-infra-cluster-yml&#34;&gt;&lt;code&gt;cfg-autoscalers/infra/cluster.yml&lt;/code&gt;&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;autoscalers:
+- name: ECS_cluster
+  disabled: false
+  description: &amp;gt;
+    ECS autoscaler will set the correct number of instances on an ECS autoscaling
+    group based on the memory or cpu reserved percentage of that autoscaler cloudwatch
+    metrics
+  interval: 1m
+  scaling_wait_timeout: 6m
+  scale:
+    kind: aws_autoscaling_group
+    config:
+      auto_scaling_group_name: &amp;quot;prod-ECSAutoScalingGroup-F4VEQM9FVL2U&amp;quot;
+      aws_region: &amp;quot;eu-west-1&amp;quot;
+      scale_up_wait_duration: 3m
+      scale_down_wait_duration: 1m30s
+
+  solve:
+    kind: bound
+    config:
+      kind: max
+
+  filters:
+    - kind: ecs_running_tasks
+      config:
+        aws_region: eu-west-1
+        cluster_name: prod-ECSCluster1-OIA8GT0KCY6X
+        max_pending_tasks_allowed: 0
+        max_checks: 10
+        error_on_max_checks: true
+        when: scale_down
+
+    - kind: scaling_kind_interval
+      config:
+        scale_up_duration: 3m
+        scale_down_duration: 6m
+
+    - kind: limit
+      config:
+        max: 300
+        min: 8
+
+  inputters:
+  - name: memory_reserved_based_input
+    description: &amp;gt;
+      This input will arrange the required number of instances on a cluster based
+      on an ECS cluster memory reservation
+    gather:
+      kind: prometheus_metric
+      config:
+        addresses:
+          - http://prometheus.prod.bi.themotion.lan
+          - http://prometheus2.prod.bi.themotion.lan
+        query: cluster:container_memory_remaining_for_reservation:bytes{type=&amp;quot;ecs&amp;quot;}
+    arrange:
+      kind: threshold
+      config:
+        scaleup_threshold: 16106127360
+        scaledown_threshold: 48318382080
+        scaleup_percent: 40
+        scaledown_percent: 20
+        scaleup_max_quantity: 10
+        scaledown_max_quantity: 2
+        scaleup_min_quantity: 1
+        scaledown_min_quantity: 1
+        inverse: true
+
+  - name: cpu_reserved_based_input
+    description: &amp;gt;
+      This input will arrange the required number of instances on a cluster based
+      on an ECS cluster cpu reservation
+    gather:
+      kind: prometheus_metric
+      config:
+        addresses:
+          - http://prometheus.prod.bi.themotion.lan
+          - http://prometheus2.prod.bi.themotion.lan
+        query: cluster:container_cpu_remaining_for_reservation:cpu_shares{type=&amp;quot;ecs&amp;quot;}
+    arrange:
+      kind: threshold
+      config:
+        scaleup_threshold: 8192
+        scaledown_threshold: 24576
+        scaleup_percent: 40
+        scaledown_percent: 20
+        scaleup_max_quantity: 10
+        scaledown_max_quantity: 2
+        scaleup_min_quantity: 1
+        scaledown_min_quantity: 1
+        inverse: true
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;cfg-autoscalers-factory-rendering-yml&#34;&gt;&lt;code&gt;cfg-autoscalers/factory/rendering.yml&lt;/code&gt;&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;autoscalers:
+- name: render_instances
+  disabled: false
+  description: &amp;quot;Render autoscaler will autoscale machines based on the SQS video rendering jobs&amp;quot;
+  interval: 1m
+  scaling_wait_timeout: 6m
+
+  scale:
+    kind: aws_autoscaling_group
+    config:
+      auto_scaling_group_name: &amp;quot;prod-ami-render-AMIAutoScalingGroup-1X8U7Q03UC4BC&amp;quot;
+      aws_region: &amp;quot;eu-west-1&amp;quot;
+      scale_up_wait_duration: 1m
+      scale_down_wait_duration: 5s
+
+  filters:
+    - kind: scaling_kind_interval
+      config:
+        scale_up_duration: 30s
+        scale_down_duration: 20m
+
+    - kind: limit
+      config:
+        max: 2500
+        min: 3
+
+  inputters:
+  - name: render_instances_based_on_jobs_queues
+    description: &amp;quot;Get quantity based on the jobs length with a constant factor&amp;quot;
+
+    gather:
+      kind: prometheus_metric
+      config:
+        addresses:
+          - http://prometheus.prod.bi.themotion.lan
+          - http://prometheus2.prod.bi.themotion.lan
+        query: number_pending_jobs{queue=&amp;quot;render&amp;quot;}
+    arrange:
+      kind: constant_factor
+      config:
+        factor: 5
+        round_type: &amp;quot;ceil&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;cfg-autoscalers-factory-processing-yml&#34;&gt;&lt;code&gt;cfg-autoscalers/factory/processing.yml&lt;/code&gt;&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;autoscalers:
+- name: processor_service
+  disabled: false
+  description: &amp;quot;Procesor service will autoscale instances based on the SQS processing jobs&amp;quot;
+  interval: 30s
+  scaling_wait_timeout: 5m
+
+  scale:
+    kind: aws_ecs_service
+    config:
+      aws_region: eu-west-1
+      cluster_name: prod-ECSCluster1-OIA8GT0KCY6X
+      service_name: processor
+
+  filters:
+    - kind: scaling_kind_interval
+      config:
+        scale_up_duration: 1m
+        scale_down_duration: 5m
+
+    - kind: limit
+      config:
+        max: 1000
+        min: 2
+
+  inputters:
+  - name: service_instances_based_on_jobs_queue
+    description: &amp;quot;Get quantity based on the jobs length with a constant factor&amp;quot;
+
+    gather:
+      kind: aws_sqs
+      config:
+        queue_url: &amp;quot;https://sqs.eu-west-1.amazonaws.com/843176375373/prod-processing&amp;quot;
+        queue_property: &amp;quot;ApproximateNumberOfMessages&amp;quot;
+        aws_region: &amp;quot;eu-west-1&amp;quot;
+    arrange:
+      kind: constant_factor
+      config:
+        factor: 10
+        round_type: &amp;quot;ceil&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;cfg-autoscalers-factory-transcoding-yml&#34;&gt;&lt;code&gt;cfg-autoscalers/factory/transcoding.yml&lt;/code&gt;&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;autoscalers:
+- name: transcoder_service
+  disabled: false
+  description: &amp;quot;Transcodder service will autoscale instances based on the SQS video rendering jobs&amp;quot;
+  interval: 30s
+  scaling_wait_timeout: 5m
+
+  scale:
+    kind: aws_ecs_service
+    config:
+      aws_region: eu-west-1
+      cluster_name: prod-ECSCluster1-OIA8GT0KCY6X
+      service_name: transcoder
+
+  filters:
+    - kind: scaling_kind_interval
+      config:
+        scale_up_duration: 1m
+        scale_down_duration: 5m
+
+    - kind: limit
+      config:
+        max: 800
+        min: 2
+
+  inputters:
+  - name: service_instances_based_on_jobs_queue
+    description: &amp;quot;Get quantity based on the jobs length with a constant factor&amp;quot;
+
+    gather:
+      kind: prometheus_metric
+      config:
+        addresses:
+          - http://prometheus.prod.bi.themotion.lan
+          - http://prometheus2.prod.bi.themotion.lan
+        query: number_pending_jobs{queue=&amp;quot;transcode&amp;quot;}
+    arrange:
+      kind: constant_factor
+      config:
+        factor: 10
+        round_type: &amp;quot;ceil&amp;quot;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;cfg-autoscalers-factory-analytics-yml&#34;&gt;&lt;code&gt;cfg-autoscalers/factory/analytics.yml&lt;/code&gt;&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;autoscalers:
+- name: analytics_mine_service
+  disabled: false
+  description: &amp;quot;Analytics Mine autoscales based on the number of import jobs present in the queue&amp;quot;
+  interval: 30s
+  scaling_wait_timeout: 5m
+
+  scale:
+    kind: aws_ecs_service
+    config:
+      aws_region: eu-west-1
+      cluster_name: prod-ECSCluster1-OIA8GT0KCY6X
+      service_name: analytics-mine
+
+  filters:
+    - kind: scaling_kind_interval
+      config:
+        scale_up_duration: 1m
+        scale_down_duration: 5m
+
+    - kind: limit
+      config:
+        max: 50
+        min: 0
+
+  inputters:
+  - name: service_instances_based_on_jobs_queue
+    description: &amp;quot;Get quantity based on the jobs length with a constant factor&amp;quot;
+
+    gather:
+      kind: aws_sqs
+      config:
+        queue_url: &amp;quot;https://sqs.eu-west-1.amazonaws.com/843176375373/prod-analytics-batches&amp;quot;
+        queue_property: &amp;quot;ApproximateNumberOfMessages&amp;quot;
+        aws_region: &amp;quot;eu-west-1&amp;quot;
+    arrange:
+      kind: constant_factor
+      config:
+        factor: 5
+        round_type: &amp;quot;ceil&amp;quot;
+
+- name: analytics_forge_service
+  disabled: false
+  description: &amp;quot;Analytics Forge autoscales based on the number of jobs in the queue&amp;quot;
+  interval: 30s
+  scaling_wait_timeout: 5m
+
+  scale:
+    kind: aws_ecs_service
+    config:
+      aws_region: eu-west-1
+      cluster_name: prod-ECSCluster1-OIA8GT0KCY6X
+      service_name: analytics-forge
+
+  filters:
+    - kind: scaling_kind_interval
+      config:
+        scale_up_duration: 1m
+        scale_down_duration: 5m
+
+    - kind: limit
+      config:
+        max: 5
+        min: 1
+
+  inputters:
+  - name: service_instances_based_on_jobs_queue
+    description: &amp;quot;Get quantity based on the jobs length with a constant factor&amp;quot;
+
+    gather:
+      kind: aws_sqs
+      config:
+        queue_url: &amp;quot;https://sqs.eu-west-1.amazonaws.com/843176375373/prod-analytics-jobs&amp;quot;
+        queue_property: &amp;quot;ApproximateNumberOfMessages&amp;quot;
+        aws_region: &amp;quot;eu-west-1&amp;quot;
+    arrange:
+      kind: constant_factor
+      config:
+        factor: 360
+        round_type: &amp;quot;ceil&amp;quot;
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Running</title>
+      <link>https://themotion.github.io/ladder/operating/running/</link>
+      <pubDate>Sun, 13 Nov 2016 17:54:56 +0000</pubDate>
+      
+      <guid>https://themotion.github.io/ladder/operating/running/</guid>
+      <description>
+
+&lt;h2 id=&#34;configuration-file&#34;&gt;Configuration file&lt;/h2&gt;
+
+&lt;p&gt;When you run ladder by default will load &lt;code&gt;ladder.yml&lt;/code&gt;, if not present you will
+need to pass the configuration path to the conf file with the argument
+&lt;code&gt;-config.file&lt;/code&gt; or &lt;code&gt;--config.file&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ ladder -config.file=/etc/ladder/conf.yml
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;listen-address&#34;&gt;Listen address&lt;/h2&gt;
+
+&lt;p&gt;When running ladder by default will listen on &lt;code&gt;0.0.0.0:9094&lt;/code&gt; but you can override
+this using &lt;code&gt;-listen.address&lt;/code&gt; or &lt;code&gt;--listen.address&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ ladder -listen.address=&amp;quot;127.0.0.1:9092&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;debug&#34;&gt;Debug&lt;/h2&gt;
+
+&lt;p&gt;You can run ladder in debug mode using the &lt;code&gt;-debug&lt;/code&gt; or &lt;code&gt;--debug&lt;/code&gt; flag, this
+will print debug messages and also register dummy blocks so you can use them
+to fake inputs and arrangements&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ ladder -config.file=/etc/ladder/conf.yml -debug
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;dry-run&#34;&gt;Dry run&lt;/h2&gt;
+
+&lt;p&gt;You can run ladder in dy run mode using the &lt;code&gt;-dry.run&lt;/code&gt; or &lt;code&gt;--dry.run&lt;/code&gt; flag, this
+will gather and arrange as a regular run but will omit the final step of
+scaling up or down wo you can test your logic before deplying 100000 machines
+and closing your company because of bankrupt&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ ladder -config.file=/etc/ladder/conf.yml -dry.run
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;json-logger&#34;&gt;Json logger&lt;/h2&gt;
+
+&lt;p&gt;By default ladder will log in text format, but in production when you use systems like
+Elastic search, json is better because of the indexing, for this Ladder can log in
+json just running with &lt;code&gt;-json.log&lt;/code&gt; or &lt;code&gt;--json.log&lt;/code&gt; flag.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ ladder -config.file=/etc/ladder/conf.yml -json.log
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>https://themotion.github.io/ladder/</loc>
+    <lastmod>2017-01-01T11:08:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://themotion.github.io/ladder/operating/api/</loc>
+    <lastmod>2017-01-01T11:08:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://themotion.github.io/ladder/operating/framework/</loc>
+    <lastmod>2016-11-13T18:02:45+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://themotion.github.io/ladder/operating/metrics/</loc>
+    <lastmod>2016-11-13T18:02:22+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://themotion.github.io/ladder/operating/configuration/</loc>
+    <lastmod>2016-11-13T18:02:13+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://themotion.github.io/ladder/operating/running/</loc>
+    <lastmod>2016-11-13T17:54:56+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://themotion.github.io/ladder/blocks/scalers/</loc>
+    <lastmod>2016-11-13T15:05:51+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://themotion.github.io/ladder/blocks/filters/</loc>
+    <lastmod>2016-11-13T15:05:48+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://themotion.github.io/ladder/blocks/solvers/</loc>
+    <lastmod>2016-11-13T15:05:43+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://themotion.github.io/ladder/blocks/arrangers/</loc>
+    <lastmod>2016-11-13T15:05:35+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://themotion.github.io/ladder/blocks/gatherers/</loc>
+    <lastmod>2016-11-13T15:05:29+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://themotion.github.io/ladder/concepts/blocks/</loc>
+    <lastmod>2016-11-13T10:47:06+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://themotion.github.io/ladder/concepts/autoscaler/</loc>
+    <lastmod>2016-11-13T10:47:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://themotion.github.io/ladder/introduction/installing/</loc>
+    <lastmod>2016-11-13T10:25:52+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://themotion.github.io/ladder/introduction/overview/</loc>
+    <lastmod>2016-11-13T10:20:46+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://themotion.github.io/ladder/</loc>
+    <lastmod>2016-11-12T21:07:13+01:00</lastmod>
+  </url>
+  
+</urlset>

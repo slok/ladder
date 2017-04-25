@@ -1,0 +1,732 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blocks-rsses on Ladder documentation</title>
+    <link>https://themotion.github.io/ladder/blocks/index.xml</link>
+    <description>Recent content in Blocks-rsses on Ladder documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Released under the MIT license</copyright>
+    <lastBuildDate>Sun, 13 Nov 2016 15:05:51 +0000</lastBuildDate>
+    <atom:link href="https://themotion.github.io/ladder/blocks/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Scalers</title>
+      <link>https://themotion.github.io/ladder/blocks/scalers/</link>
+      <pubDate>Sun, 13 Nov 2016 15:05:51 +0000</pubDate>
+      
+      <guid>https://themotion.github.io/ladder/blocks/scalers/</guid>
+      <description>
+
+&lt;h2 id=&#34;dummy&#34;&gt;Dummy&lt;/h2&gt;
+
+&lt;p&gt;Dummy scaler will return changed or not if the current quantity is same/different
+of the new quantity, if different it will be the new current&lt;/p&gt;
+
+&lt;h3 id=&#34;name&#34;&gt;Name&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;dummy&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;options&#34;&gt;Options:&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;wait_duration&lt;/code&gt;: The time to wait when waiting after scaling, by default &lt;code&gt;0ms&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;scale:
+  kind: dummy
+  config:
+    wait_duration: 5s
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;div class=&#34;admonition warning&#34;&gt;
+&lt;p class=&#34;admonition-title&#34;&gt;Warning&lt;/p&gt;
+&lt;p&gt;Only used for testing&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&#34;stdout&#34;&gt;Stdout&lt;/h2&gt;
+
+&lt;p&gt;Dummy scaler will return changed or not if the current quantity is same/different
+of the new quantity, if different it will be the new current and will put a message
+with the action made (upscale or downscale)&lt;/p&gt;
+
+&lt;h3 id=&#34;name-1&#34;&gt;Name&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;stdout&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;options-1&#34;&gt;Options&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;message_prefix&lt;/code&gt;: The prefix for the messages&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;example-1&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;scale:
+  kind: stdout
+  config:
+    message_prefix: &amp;quot;[SCALER]&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;auto-scaling-group&#34;&gt;Auto scaling group&lt;/h2&gt;
+
+&lt;p&gt;Auto scaling group scaler will set the desired instances of the group to a the
+new input, if the new quantity is the same as the current it will do nothing.&lt;/p&gt;
+
+&lt;h3 id=&#34;name-2&#34;&gt;Name&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;aws_autoscaling_group&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;options-2&#34;&gt;Options&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;aws_region&lt;/code&gt;: The AWS region where the auto scaling group lives&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;auto_scaling_group_name&lt;/code&gt;: The name of the autoscalingr group&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;scale_up_wait_duration&lt;/code&gt;: The time to wait after scaling up (to give time to the machines to stabilize)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;scale_down_wait_duration&lt;/code&gt;: The time to wait after scaling down&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;force_min_max&lt;/code&gt;: boolean that will set the min and max instances properties on the asg if true&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;remaining_closest_hour_limit_duration&lt;/code&gt;:If an instance has been running for N minutes in the last hour and this time is higher than
+the minutes reminaing in this setting for the current running hour then the instance can be downscaled. Example:
+&lt;code&gt;remaining_closest_hour_limit_duration&lt;/code&gt; is 10m, we have 10 instances, now want 5, 2 of them have been running in the last running hour for
+50m or more and 8 for less than 50m, the scaler will set 8 instances and not 5, because only 2 meet the requirements of &amp;gt;=50m
+running.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;max_no_downscale_rch_limit&lt;/code&gt;: The maximum times the filter refering to &lt;code&gt;remaining_closest_hour_limit_duration&lt;/code&gt; didn&amp;rsquo;t downscale any
+number, after this maximum times the filter will not activate and will downscale as it didn&amp;rsquo;t apply any filtering&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&#34;admonition note&#34;&gt;
+&lt;p class=&#34;admonition-title&#34;&gt;Note&lt;/p&gt;
+&lt;p&gt;If &lt;code&gt;scale_up_wait_duration&lt;/code&gt; or &lt;code&gt;scale_down_wait_duration&lt;/code&gt; are not defined, the scaler will wait until the desired
+number of scaled instnaces met the running instances on the ASG&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;admonition note&#34;&gt;
+&lt;p class=&#34;admonition-title&#34;&gt;Note&lt;/p&gt;
+&lt;p&gt;If &lt;code&gt;remaining_closest_hour_limit_duration&lt;/code&gt; is set to &lt;code&gt;0[smh]&lt;/code&gt; or is missing, it will be disabled&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;admonition note&#34;&gt;
+&lt;p class=&#34;admonition-title&#34;&gt;Note&lt;/p&gt;
+&lt;p&gt;If &lt;code&gt;remaining_closest_hour_limit_duration&lt;/code&gt; logic doesn&amp;rsquo;t downscale any instance for &lt;code&gt;max_no_downscale_rch_limit&lt;/code&gt; opt iterations, it will downscale to the desired ones
+no matter running time of the instances, this way if there are problems with the timing calculation, pace check or whatever, it will continue downscaling as a regular iteration&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;admonition note&#34;&gt;
+&lt;p class=&#34;admonition-title&#34;&gt;Note&lt;/p&gt;
+&lt;p&gt;AWS invoices for a full hour, &lt;code&gt;remaining_closest_hour_limit_duration&lt;/code&gt; will enable a way of maximizing the use of scaled instances,
+only downscaling to the number of instances required by the limit enables the &lt;a href=&#34;http://docs.aws.amazon.com/autoscaling/latest/userguide/as-instance-termination.html#default-termination-policy&#34;&gt;downscale policies&lt;/a&gt; of AWS.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&#34;requirements&#34;&gt;Requirements&lt;/h3&gt;
+
+&lt;div class=&#34;admonition note&#34;&gt;
+&lt;p class=&#34;admonition-title&#34;&gt;Note&lt;/p&gt;
+&lt;p&gt;It will need &lt;code&gt;autoscaling:UpdateAutoScalingGroup&lt;/code&gt; AWS permission policy, for example:&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-json&#34;&gt;{  
+   &amp;quot;Version&amp;quot;:&amp;quot;2012-10-17&amp;quot;,
+   &amp;quot;Statement&amp;quot;:[  
+      {  
+         &amp;quot;Action&amp;quot;:&amp;quot;autoscaling:UpdateAutoScalingGroup&amp;quot;,
+         &amp;quot;Resource&amp;quot;:&amp;quot;*&amp;quot;,
+         &amp;quot;Effect&amp;quot;:&amp;quot;Allow&amp;quot;
+      }
+   ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;example-2&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;scale:
+  kind: aws_autoscaling_group
+  config:
+    aws_region: &amp;quot;us-west-2&amp;quot;
+    auto_scaling_group_name: &amp;quot;slok-ECSAutoScalingGroup-1PNI4RX8BD5XU&amp;quot;  
+    scale_up_wait_duration: 5m
+    scale_down_wait_duration: 15s
+    force_min_max: true
+    remaining_closest_hour_limit_duration: 10m
+    max_no_downscale_rch_limit: 180
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;ecs-service&#34;&gt;ECS service&lt;/h2&gt;
+
+&lt;p&gt;ECS service scaler will set the number of desired instances of an ECS service.
+if the new quantity is the same as the current it will do nothing,&lt;/p&gt;
+
+&lt;h3 id=&#34;name-3&#34;&gt;Name&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;aws_ecs_service&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;options-3&#34;&gt;Options&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;aws_region&lt;/code&gt;: The AWS region where the auto scaling group lives&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;cluster_name&lt;/code&gt;: The name of the ECS cluster&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;service_name&lt;/code&gt;: The name of the service in the ECS cluster&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;requirements-1&#34;&gt;Requirements&lt;/h3&gt;
+
+&lt;div class=&#34;admonition note&#34;&gt;
+&lt;p class=&#34;admonition-title&#34;&gt;Note&lt;/p&gt;
+&lt;p&gt;It will need &lt;code&gt;ecs:UpdateService&lt;/code&gt; AWS permission policy, for example:&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-json&#34;&gt;{  
+   &amp;quot;Version&amp;quot;:&amp;quot;2012-10-17&amp;quot;,
+   &amp;quot;Statement&amp;quot;:[  
+      {  
+         &amp;quot;Action&amp;quot;:&amp;quot;ecs:UpdateService&amp;quot;,
+         &amp;quot;Resource&amp;quot;:&amp;quot;*&amp;quot;,
+         &amp;quot;Effect&amp;quot;:&amp;quot;Allow&amp;quot;
+      }
+   ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;example-3&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;scale:
+  kind: aws_ecs_service
+  config:
+    aws_region: us-west-2
+    cluster_name: slok-ECSCluster1-15OBYPKBNXIO6
+    service_name: alertmanager
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Filters</title>
+      <link>https://themotion.github.io/ladder/blocks/filters/</link>
+      <pubDate>Sun, 13 Nov 2016 15:05:48 +0000</pubDate>
+      
+      <guid>https://themotion.github.io/ladder/blocks/filters/</guid>
+      <description>
+
+&lt;h2 id=&#34;dummy&#34;&gt;Dummy&lt;/h2&gt;
+
+&lt;p&gt;Dummy filterer will return a concrete value&lt;/p&gt;
+
+&lt;h3 id=&#34;name&#34;&gt;Name&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;dummy&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;options&#34;&gt;Options&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;filters:
+  - kind: dummy
+    config:
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;div class=&#34;admonition warning&#34;&gt;
+&lt;p class=&#34;admonition-title&#34;&gt;Warning&lt;/p&gt;
+&lt;p&gt;Only used for testing&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&#34;limit&#34;&gt;Limit&lt;/h2&gt;
+
+&lt;p&gt;Limit filterer will restrict the scalign value to the max and min configured limits&lt;/p&gt;
+
+&lt;h3 id=&#34;name-1&#34;&gt;Name&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;limit&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;options-1&#34;&gt;Options&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;max&lt;/code&gt;: The max value&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;min&lt;/code&gt;: The min value&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;filters:
+  - kind: limit
+    config:
+      max: 10
+      min: 2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;ecs-running-tasks&#34;&gt;ECS running tasks&lt;/h2&gt;
+
+&lt;p&gt;ECS running tasks filter will check how many tasks are pending by the ECS scheduler on a given
+cluster, if this number exceeds the desired one then it will break the filters chain and set
+the autoscaling to the current number.&lt;/p&gt;
+
+&lt;h3 id=&#34;name-2&#34;&gt;Name&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;ecs_running_tasks&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;options-2&#34;&gt;Options&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;aws_region&lt;/code&gt;: String that contains the target ECS cluster region&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;cluster_name&lt;/code&gt;: String that contains the name of the target ECS cluster&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;max_pending_tasks_allowed&lt;/code&gt;: integer that describes the maximum number of allowed not running tasks (or pending tasks)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;max_checks&lt;/code&gt;: Number of failed checks failing before continuing with a regular scalation besides the last check
+(if max checks is 0 then its disabled)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;error_on_max_checks&lt;/code&gt;: Boolean, when max checks is triggered instead of scaling as a regular iteration besides of the
+of the result it will return an error and stop this current iteration&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;when&lt;/code&gt;: string (enum) can be &lt;code&gt;always&lt;/code&gt;, &lt;code&gt;scale_up&lt;/code&gt; or &lt;code&gt;scale_down&lt;/code&gt; this will say when the filter will be applied&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;filters:
+  - kind: ecs_running_tasks
+    config:
+      aws_region: us-west-2
+      cluster_name: slok-ECSCluster1-15OBYPKBNXIO6
+      max_pending_tasks_allowed: 2
+      max_checks: 5
+      error_on_max_checks: false
+      when: scale_down
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;scaling-kind-interval&#34;&gt;Scaling kind interval&lt;/h2&gt;
+
+&lt;p&gt;scaling kind iternval will allow or not scaling if the scaling mode has been
+active for the configured duration. for example if you want to scaleup after 30 seconds
+The autoscaler will need to be in scaleup for more than 30 seconds without interruption
+(this is changing scaling mode), this allows us to omit spikes for the interval
+we want&lt;/p&gt;
+
+&lt;h3 id=&#34;name-3&#34;&gt;Name&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;scaling_kind_interval&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;options-3&#34;&gt;Options&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;scale_up_duration&lt;/code&gt;: The duration of the scaling up mode need for triggering&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;scale_down_duration&lt;/code&gt;: The duration of the scaling down mode need for triggering&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;example-1&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;filters:
+  - kind: scaling_kind_interval
+    config:
+      scale_up_duration: 30s
+      scale_down_duration: 1m
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Solvers</title>
+      <link>https://themotion.github.io/ladder/blocks/solvers/</link>
+      <pubDate>Sun, 13 Nov 2016 15:05:43 +0000</pubDate>
+      
+      <guid>https://themotion.github.io/ladder/blocks/solvers/</guid>
+      <description>
+
+&lt;div class=&#34;admonition note&#34;&gt;
+&lt;p class=&#34;admonition-title&#34;&gt;Note&lt;/p&gt;
+&lt;p&gt;You only will need a solver if you have multiple inputters, if not it will be
+ignored although there is configured on the file&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&#34;dummy&#34;&gt;Dummy&lt;/h2&gt;
+
+&lt;p&gt;Dummy solver will return the sum of all the inputs&lt;/p&gt;
+
+&lt;h3 id=&#34;name&#34;&gt;Name&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;dummy&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;options&#34;&gt;Options&lt;/h3&gt;
+
+&lt;p&gt;No options&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;solve:
+  kind: dummy
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;div class=&#34;admonition warning&#34;&gt;
+&lt;p class=&#34;admonition-title&#34;&gt;Warning&lt;/p&gt;
+&lt;p&gt;Only used for testing&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&#34;bound&#34;&gt;Bound&lt;/h2&gt;
+
+&lt;p&gt;Bound solver will return the max or min of all the received inputters quantity.&lt;/p&gt;
+
+&lt;h3 id=&#34;name-1&#34;&gt;Name&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;bound&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;options-1&#34;&gt;Options&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;kind&lt;/code&gt;: Can be &lt;code&gt;max&lt;/code&gt; or &lt;code&gt;min&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;example-1&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;solve:
+  kind: bound
+  config:
+    kind: max
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Arrangers</title>
+      <link>https://themotion.github.io/ladder/blocks/arrangers/</link>
+      <pubDate>Sun, 13 Nov 2016 15:05:35 +0000</pubDate>
+      
+      <guid>https://themotion.github.io/ladder/blocks/arrangers/</guid>
+      <description>
+
+&lt;h2 id=&#34;dummy&#34;&gt;Dummy&lt;/h2&gt;
+
+&lt;p&gt;Dummy gatherer always will return a constant quantity&lt;/p&gt;
+
+&lt;h3 id=&#34;name&#34;&gt;Name&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;dummy&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;options&#34;&gt;Options&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;quantity&lt;/code&gt;: The quantity to return always&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;arrange:
+  kind: dummy
+  config:
+    quantity: 0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;div class=&#34;admonition warning&#34;&gt;
+&lt;p class=&#34;admonition-title&#34;&gt;Warning&lt;/p&gt;
+&lt;p&gt;Only used for testing&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&#34;in-list&#34;&gt;In list&lt;/h2&gt;
+
+&lt;p&gt;In list arranger will arrange a new quantity to scale up/down based on two lists
+When the quantity received is in &lt;code&gt;match_upscale&lt;/code&gt; list it will scale the current
+quantity by the &lt;code&gt;match_up_magnitude&lt;/code&gt; percent. The same for the downscale.&lt;/p&gt;
+
+&lt;p&gt;For example scaling up 100 by a magnitude of 50 it will result in 150. Downscale
+by 20 will result in 80&lt;/p&gt;
+
+&lt;h3 id=&#34;name-1&#34;&gt;Name&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;in_list&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;options-1&#34;&gt;Options&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;match_downscale&lt;/code&gt;: The downscale list of quantities (numbers only allowed)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;match_upscale&lt;/code&gt;: The upscale list of quantities (numbers only allowed)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;match_up_magnitude&lt;/code&gt;: The upscale magnitude (scalation of the current by %)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;match_down_magnitude&lt;/code&gt;:  The downscale magnitude (scalation of the current by %)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;example-1&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;arrange:
+  kind: in_list
+  config:
+    match_downscale: [0, 2, 4, 6, 8]
+    match_upscale: [1, 2, 5, 7, 9]
+    match_up_magnitude:   200
+    match_down_magnitude: 50
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;constant-factor&#34;&gt;Constant factor&lt;/h2&gt;
+
+&lt;p&gt;Constant factor will arrange a new quantity based on a constant factor division.
+For example an input of 500 with a constant factor of 10 will result on a 50
+quantity. When a floating point result is arranged it will round
+the result up/down based on the &lt;code&gt;round_type&lt;/code&gt; option&lt;/p&gt;
+
+&lt;h3 id=&#34;name-2&#34;&gt;Name&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;constant_factor&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;options-2&#34;&gt;Options:&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;factor&lt;/code&gt;: The factor for the division of the input&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;round_type&lt;/code&gt;: The type of rounding, available ones:
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;ceil&lt;/code&gt;: Rounds up&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;floor&lt;/code&gt;: Rounds down&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;example-2&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;arrange:
+  kind: constant_factor
+  config:
+    factor: 10
+    round_type: &amp;quot;ceil&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;threshold&#34;&gt;Threshold&lt;/h2&gt;
+
+&lt;p&gt;Threshold will arrange a new quantity based on upper ond lower thresholds, it
+will scale up &amp;amp; down based on the percent of the current cuantity until the input
+gets between the 2 thresholds, it can scale up and down in a different way.&lt;/p&gt;
+
+&lt;div class=&#34;admonition note&#34;&gt;
+&lt;p class=&#34;admonition-title&#34;&gt;Note&lt;/p&gt;
+&lt;p&gt;By default this arranger will scale up when the value received is above &lt;code&gt;scaleup_threshold&lt;/code&gt;, and scale down when the value
+is below &lt;code&gt;scaledown_threshold&lt;/code&gt;, to invert this and scale up when the value is below &lt;code&gt;scaleup_threshold&lt;/code&gt; and scale down when the
+value is greater than &lt;code&gt;scaledown_threshold&lt;/code&gt;, you need to use the &lt;code&gt;inverse&lt;/code&gt; setting&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&#34;name-3&#34;&gt;Name&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;threshold&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;options-3&#34;&gt;Options&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;scaleup_threshold&lt;/code&gt;: The threshold to start scaling up&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;scaledown_threshold&lt;/code&gt;: The threshold to start scaling up&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;scaleup_percent&lt;/code&gt;: The percent of current value that will be add when scaling up is triggered&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;scaledown_percent&lt;/code&gt;: The percent of current value that will be substract when scaling down is triggered&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;scaleup_max_quantity&lt;/code&gt;: The max quantity of the scaling up value (the delta get from &lt;code&gt;scaleup_percent&lt;/code&gt; with current value)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;scaledown_max_quantity&lt;/code&gt;: The max quantity of the scaling down value (the delta get from &lt;code&gt;scaledown_percent&lt;/code&gt; with current value)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;scaleup_min_quantity&lt;/code&gt;: The min quantity of the scaling up value (the delta get from &lt;code&gt;scaleup_percent&lt;/code&gt; with current value)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;scaledown_min_quantity&lt;/code&gt;: The min quantity of the scaling down value (the delta get from &lt;code&gt;scaledown_percent&lt;/code&gt; with current value)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;inverse&lt;/code&gt;: By default this arranger will scale up when the value received is above the &lt;code&gt;scaleup_threshold&lt;/code&gt; threshold and will scale down when the value is below &lt;code&gt;scaledown_threshold&lt;/code&gt;, if inverse is true it will invert this and will scaleup when the value is below
+the threshold and scale down when is above the threshold&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;example-3&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;arrange:
+  kind: threshold
+  config:
+    scaleup_threshold: 80
+    scaledown_threshold: 70
+    scaleup_percent: 10
+    scaledown_percent: 10
+    scaleup_max_quantity: 30
+    scaledown_max_quantity: 10
+    scaleup_min_quantity: 2
+    scaledown_min_quantity: 1
+    inverse: false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;div class=&#34;admonition note&#34;&gt;
+&lt;p class=&#34;admonition-title&#34;&gt;Note&lt;/p&gt;
+&lt;p&gt;To upscale or downscale with a fixed absolute value instead of percent you can set to 0 (or omit) scaling percents and
+the min and max of the scaling mode to a fixed value&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&#34;example-with-fixed-value&#34;&gt;Example with fixed value&lt;/h3&gt;
+
+&lt;p&gt;Downscale with a fixed value of 2 and upscale with a fixed value of 5&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;arrange:
+  kind: threshold
+  config:
+    scaleup_threshold: 80
+    scaledown_threshold: 70
+    #scaleup_percent: 0
+    #scaledown_percent: 0
+    scaleup_max_quantity: 5
+    scaleup_min_quantity: 5
+    scaledown_max_quantity: 2
+    scaledown_min_quantity: 2
+    innverse: false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;div class=&#34;admonition note&#34;&gt;
+&lt;p class=&#34;admonition-title&#34;&gt;Note&lt;/p&gt;
+&lt;p&gt;With this arranger (and the &lt;a href=&#34;https://themotion.github.io/ladder/ladder/blocks/filters/#scaling-kind-interval&#34;&gt;&lt;code&gt;scaling_kind_interval&lt;/code&gt;&lt;/a&gt; filterer) we met the requirements for a dynamic and independent growth/reduction
+like the described on Netflix tech post: &lt;a href=&#34;http://techblog.netflix.com/2012/01/auto-scaling-in-amazon-cloud.html&#34;&gt;&lt;code&gt;Auto scaling in amazon cloud&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Gatherers</title>
+      <link>https://themotion.github.io/ladder/blocks/gatherers/</link>
+      <pubDate>Sun, 13 Nov 2016 15:05:29 +0000</pubDate>
+      
+      <guid>https://themotion.github.io/ladder/blocks/gatherers/</guid>
+      <description>
+
+&lt;h2 id=&#34;dummy&#34;&gt;Dummy&lt;/h2&gt;
+
+&lt;p&gt;Dummy gatherer always will return a constant quantity&lt;/p&gt;
+
+&lt;h3 id=&#34;name&#34;&gt;Name&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;dummy&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;options&#34;&gt;Options&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;quantity&lt;/code&gt;: The quantity to return always&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;gather:
+  kind: dummy
+  config:
+    quantity: 0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;div class=&#34;admonition warning&#34;&gt;
+&lt;p class=&#34;admonition-title&#34;&gt;Warning&lt;/p&gt;
+&lt;p&gt;Only used for testing&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&#34;random&#34;&gt;Random&lt;/h2&gt;
+
+&lt;p&gt;Random gatherer will return a random number between a max and min bounds&lt;/p&gt;
+
+&lt;h3 id=&#34;name-1&#34;&gt;Name&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;random&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;options-1&#34;&gt;Options&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;max_limit&lt;/code&gt;: The max limit of the random (not included)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;min_limit&lt;/code&gt;: The min limit of the random (included)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;example-1&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;gather:
+  kind: random
+  config:
+    max_limit: 10
+    min_limit: 0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;sqs-property&#34;&gt;SQS property&lt;/h2&gt;
+
+&lt;p&gt;SQS gatherer will return the quantity of the number of messages of a queue, this
+number can be one of the available SQS prperties&lt;/p&gt;
+
+&lt;h3 id=&#34;name-2&#34;&gt;Name&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;aws_sqs&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;options-2&#34;&gt;Options&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;queue_url&lt;/code&gt;: The SQS queue URL&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;queue_property&lt;/code&gt;: The property to get the message number, can be one of these 3:
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;ApproximateNumberOfMessages&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ApproximateNumberOfMessagesNotVisible&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ApproximateNumberOfMessagesDelayed&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;aws_region&lt;/code&gt;: The region of AWS where the SQS queue lives&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;example-2&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;gather:
+  kind: aws_sqs
+  config:
+    queue_url: &amp;quot;https://sqs.us-west-2.amazonaws.com/016386521566/slok-render-jobs&amp;quot;
+    queue_property: &amp;quot;ApproximateNumberOfMessages&amp;quot;
+    aws_region: &amp;quot;us-west-2&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;cloudwatch-metric&#34;&gt;Cloudwatch metric&lt;/h2&gt;
+
+&lt;p&gt;Cloudwatchmetric gatherer will return a current metric of a given query for the
+last minute aggregation, this let us know curren values (approx.) about AWS metrics.&lt;/p&gt;
+
+&lt;h3 id=&#34;name-3&#34;&gt;Name&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;aws_cloudwatch_metric&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;options-3&#34;&gt;Options&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;aws_region&lt;/code&gt;: The region of AWS where the cloudwatch metrics&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;metric_name&lt;/code&gt;: The name of the metric(&lt;code&gt;CPUReservation&lt;/code&gt;, &lt;code&gt;CPUCreditBalance&lt;/code&gt;, &lt;code&gt;DiskWriteBytes&lt;/code&gt;&amp;hellip;)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;namespace&lt;/code&gt;: The namespace of the metric (&lt;code&gt;AWS/ELB&lt;/code&gt;, &lt;code&gt;AWS/EC2&lt;/code&gt;&amp;hellip;)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;statistic&lt;/code&gt;: The statistic type of the metric. Check them at:     &lt;a href=&#34;https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/cloudwatch_concepts.html#Statistic&#34;&gt;https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/cloudwatch_concepts.html#Statistic&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;unit&lt;/code&gt;: The unit type of the metric, Check them at:   &lt;a href=&#34;https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/cloudwatch_concepts.html#Unit&#34;&gt;https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/cloudwatch_concepts.html#Unit&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;offset&lt;/code&gt;: 0 or negative time duration to apply to the metrics query, for example &lt;code&gt;-30s&lt;/code&gt; will get the metrics from -1&amp;rsquo;30&amp;rdquo; to -30&amp;rdquo; metrics from now&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;dimensions&lt;/code&gt;: dimensions are like prometheus labels, is a list of dicts having &lt;code&gt;name&lt;/code&gt; and &lt;code&gt;value&lt;/code&gt; with this the metric wil be filtered&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;example-3&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;gather:
+  kind: aws_cloudwatch_metric
+  config:
+    aws_region: &amp;quot;us-west-2&amp;quot;
+    metric_name: &amp;quot;CPUReservation&amp;quot;
+    namespace: &amp;quot;AWS/ECS&amp;quot;
+    statistic: &amp;quot;Maximum&amp;quot;
+    unit: &amp;quot;Percent&amp;quot;
+    offset: &amp;quot;-30s&amp;quot;
+    dimensions:
+    - name: &amp;quot;ClusterName&amp;quot;
+      value: &amp;quot;slok-ECSCluster1-15OBYPKBNXIO6&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;prometheus-metric&#34;&gt;Prometheus metric&lt;/h2&gt;
+
+&lt;p&gt;Prometheus metric gatherer is one of the most powerful gatherers, not because of the gatherer itself, but for
+the amazing Prometheus query API. This gatherer should work with single sample vectors, other type of results
+from Prometheus will error, for example a vector with length greater than 1 or a Matrix result.&lt;/p&gt;
+
+&lt;p&gt;Prometheus gatherer accepts different prometheus so it can fallback to a different prometheus to get the metric.
+&lt;a href=&#34;https://prometheus.io/docs/introduction/faq/#can-prometheus-be-made-highly-available?&#34;&gt;HA Prometheus&lt;/a&gt; infrastructure is usually made by 2 equal prometheis that are independent one each other&lt;/p&gt;
+
+&lt;div class=&#34;admonition note&#34;&gt;
+&lt;p class=&#34;admonition-title&#34;&gt;Note&lt;/p&gt;
+&lt;p&gt;You should query precalculated metrics (recording rules), this will speed up the query and will be more
+readable&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&#34;name-4&#34;&gt;Name&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;prometheus_metric&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;options-4&#34;&gt;Options&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;addresses&lt;/code&gt;: The addresses of the prometheus endpoint&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;query&lt;/code&gt;: The query that will be send to prometheus&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;example-4&#34;&gt;Example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;gather:
+  kind: prometheus_metric
+  config:
+    addresses:
+      - http://prometheus.prod.bi.themotion.lan
+      - http://prometheus2.prod.bi.themotion.lan
+      - http://prometheus3.prod.bi.themotion.lan
+    query: max(service:container_memory_usage:percent{service=&amp;quot;prometheus&amp;quot;})
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

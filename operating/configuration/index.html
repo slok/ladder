@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+  
+  
+  
+  
+   <html class="no-js"> 
+
+  <head lang="en-us">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=10" />
+    <title>Configuration - Ladder documentation</title>
+    <meta name="generator" content="Hugo 0.17" />
+
+    
+    <meta name="description" content="A flexible and reliable autoscaler">
+    
+    <link rel="canonical" href="https://themotion.github.io/ladder/operating/configuration/">
+    
+    <meta name="author" content="TheMotion">
+    
+
+    <meta property="og:url" content="https://themotion.github.io/ladder/operating/configuration/">
+    <meta property="og:title" content="Ladder documentation">
+    <meta property="og:image" content="https://themotion.github.io/ladder/images/logo.png">
+    <meta name="apple-mobile-web-app-title" content="Ladder documentation">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <link rel="shortcut icon" type="image/x-icon" href="https://themotion.github.io/ladder/images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="https://themotion.github.io/ladder/images/favicon.ico">
+
+    <style>
+      @font-face {
+        font-family: 'Icon';
+        src: url('https://themotion.github.io/ladder/fonts/icon.eot?52m981');
+        src: url('https://themotion.github.io/ladder/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+             url('https://themotion.github.io/ladder/fonts/icon.woff?52m981')
+               format('woff'),
+             url('https://themotion.github.io/ladder/fonts/icon.ttf?52m981')
+               format('truetype'),
+             url('https://themotion.github.io/ladder/fonts/icon.svg?52m981#icon')
+               format('svg');
+        font-weight: normal;
+        font-style: normal;
+      }
+    </style>
+
+    <link rel="stylesheet" href="https://themotion.github.io/ladder/stylesheets/application.css">
+    <link rel="stylesheet" href="https://themotion.github.io/ladder/stylesheets/temporary.css">
+    <link rel="stylesheet" href="https://themotion.github.io/ladder/stylesheets/palettes.css">
+    <link rel="stylesheet" href="https://themotion.github.io/ladder/stylesheets/highlight/highlight.css">
+
+    
+    
+    
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,700|Roboto&#43;Mono">
+    <style>
+      body, input {
+        font-family: 'Roboto', Helvetica, Arial, sans-serif;
+      }
+      pre, code {
+        font-family: 'Roboto Mono', 'Courier New', 'Courier', monospace;
+      }
+    </style>
+
+    
+    <script src="https://themotion.github.io/ladder/javascripts/modernizr.js"></script>
+
+    
+
+  </head>
+  <body class="palette-primary-deep-purple palette-accent-light-blue">
+
+
+
+	
+	
+
+
+<div class="backdrop">
+	<div class="backdrop-paper"></div>
+</div>
+
+<input class="toggle" type="checkbox" id="toggle-drawer">
+<input class="toggle" type="checkbox" id="toggle-search">
+<label class="toggle-button overlay" for="toggle-drawer"></label>
+
+<header class="header">
+	<nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        Configuration
+      </div>
+    </div>
+
+    
+
+    
+    
+        
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+</header>
+
+<main class="main">
+	<div class="drawer">
+		<nav aria-label="Navigation">
+  <a href="https://github.com/themotion/ladder" class="project">
+    <div class="banner">
+      
+        <div class="logo">
+          <img src="https://themotion.github.io/ladder/images/logo.png">
+        </div>
+      
+      <div class="name">
+        <strong>Ladder documentation <span class="version">1.0.0</span></strong>
+        
+          <br>
+          themotion/ladder
+        
+      </div>
+    </div>
+  </a>
+
+  <div class="scrollable">
+    <div class="wrapper">
+      
+        <ul class="repo">
+          <li class="repo-download">
+            <a href="https://github.com/themotion/ladder/archive/master.zip" target="_blank" title="Download" data-action="download">
+              <i class="icon icon-download"></i> Download
+            </a>
+          </li>
+          <li class="repo-stars">
+            <a href="https://github.com/themotion/ladder/stargazers" target="_blank" title="Stargazers" data-action="star">
+              <i class="icon icon-star"></i> Stars
+              <span class="count">&ndash;</span>
+            </a>
+          </li>
+        </ul>
+        <hr>
+      
+
+      <div class="toc">
+        
+        <ul>
+          
+
+
+
+
+<li>
+  
+    <span class="section">Introduction</span>
+    <ul>
+      
+        
+        
+
+
+
+<a  title="Overview" href="/ladder/ladder/introduction/overview/">
+	
+	Overview
+</a>
+
+
+
+      
+        
+        
+
+
+
+<a  title="Installing" href="/ladder/ladder/introduction/installing/">
+	
+	Installing
+</a>
+
+
+
+      
+    </ul>
+  
+</li>
+
+
+
+<li>
+  
+    <span class="section">Concepts</span>
+    <ul>
+      
+        
+        
+
+
+
+<a  title="Autoscaler" href="/ladder/ladder/concepts/autoscaler/">
+	
+	Autoscaler
+</a>
+
+
+
+      
+        
+        
+
+
+
+<a  title="Blocks" href="/ladder/ladder/concepts/blocks/">
+	
+	Blocks
+</a>
+
+
+
+      
+    </ul>
+  
+</li>
+
+
+
+<li>
+  
+    <span class="section">Available Blocks</span>
+    <ul>
+      
+        
+        
+
+
+
+<a  title="Gatherers" href="/ladder/ladder/blocks/gatherers/">
+	
+	Gatherers
+</a>
+
+
+
+      
+        
+        
+
+
+
+<a  title="Arrangers" href="/ladder/ladder/blocks/arrangers/">
+	
+	Arrangers
+</a>
+
+
+
+      
+        
+        
+
+
+
+<a  title="Solvers" href="/ladder/ladder/blocks/solvers/">
+	
+	Solvers
+</a>
+
+
+
+      
+        
+        
+
+
+
+<a  title="Filters" href="/ladder/ladder/blocks/filters/">
+	
+	Filters
+</a>
+
+
+
+      
+        
+        
+
+
+
+<a  title="Scalers" href="/ladder/ladder/blocks/scalers/">
+	
+	Scalers
+</a>
+
+
+
+      
+    </ul>
+  
+</li>
+
+
+
+<li>
+  
+    <span class="section">Operating</span>
+    <ul>
+      
+        
+        
+
+
+
+<a  title="Running" href="/ladder/ladder/operating/running/">
+	
+	Running
+</a>
+
+
+
+      
+        
+        
+
+
+
+<a class="current" title="Configuration" href="/ladder/ladder/operating/configuration/">
+	
+	Configuration
+</a>
+
+
+<ul id="scrollspy">
+</ul>
+
+
+      
+        
+        
+
+
+
+<a  title="Metrics" href="/ladder/ladder/operating/metrics/">
+	
+	Metrics
+</a>
+
+
+
+      
+        
+        
+
+
+
+<a  title="API" href="/ladder/ladder/operating/api/">
+	
+	API
+</a>
+
+
+
+      
+        
+        
+
+
+
+<a  title="Using as a framework" href="/ladder/ladder/operating/framework/">
+	
+	Using as a framework
+</a>
+
+
+
+      
+    </ul>
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="License" href="/ladder/ladder/license">
+	
+	License
+</a>
+
+
+
+  
+</li>
+
+
+        </ul>
+        
+
+        
+        <hr>
+        <span class="section">The author</span>
+        
+        <ul>
+          
+
+          
+
+          
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+
+	</div>
+
+	<article class="article">
+		<div class="wrapper">
+			<h1>Configuration </h1>
+
+			
+
+<h2 id="configuration-schema">Configuration schema</h2>
+
+<p>Ladder configuration is splitted in 2 main blocks, one the global configuration and
+a multiple autoscalers blocks. The main entrypoint configuration of Ladder will point
+to the other configuration files where the autoscalers are configured.</p>
+
+<p>For example our main configuration is <code>ladder.yml</code> (by default will be this):</p>
+
+<pre><code class="language-yaml">global:
+  metrics_path: /metrics
+  api_v1_path: /api/v1
+  interval: 30s
+  warmup: 3m
+  scaling_wait_timeout: 3m
+
+autoscaler_files:
+  - cfg-autoscalers/services/amis/*.yml
+  - cfg-autoscalers/services/main_cluster/*.yml
+  - cfg-autoscalers/clusters/*.yml
+</code></pre>
+
+<p>This file points to our autoscalers that will reside there, see the file structure:</p>
+
+<pre><code class="language-bash">./ladder.yml
+./cfg-autoscalers/
+├── clusters
+│   ├── main.yml
+│   └── wrong.json
+└── services
+    ├── amis
+    │   └── render.yml
+    └── main_cluster
+        ├── infra.yml
+        └── video.yml
+</code></pre>
+
+<p>As you see the paths are path matchers, that <code>wrong.json</code> will be ignored.</p>
+
+<h2 id="global-configuration">Global configuration</h2>
+
+<p>The global configuration is the configuration that will be applied to Ladder as
+a program or by default to all the autoscalers depending on the setting</p>
+
+<p>It starts with <code>global:</code></p>
+
+<ul>
+<li><code>metrics_path</code>: The path where the metrics can be retrieved, by default <code>/metrics</code></li>
+<li><code>config_path</code>: The path where the loaded configuration files can be retrieved, by default: <code>/config</code></li>
+<li><code>health_check_path</code>: The path where the health check will be listening, by default <code>/check</code></li>
+<li><code>api_v1_path</code>: The prefix path where the API v1 enpoints will be listening, by default <code>/api/v1</code></li>
+<li><code>interval</code>: The interval the autoscaler will run the iteration process, by default <code>30s</code></li>
+<li><code>warmup</code>: The time the autoscaler will wait for the first scalation execution
+(gathering, solving&hellip; will occur), by default <code>30s</code></li>
+<li><code>scaling_wait_timeout</code>: The time that will wait before giving timeout when a
+correct scalation starts the process of waiting until the target has scaled <code>2m</code></li>
+</ul>
+
+<h2 id="autoscalers-cofiguration-files">Autoscalers cofiguration files</h2>
+
+<p>Autoscaler configuration files have one or multiple autoscalers per file, thats up to you
+and how do you organize the autoscalers. For example this could be a very simple autoscaling file:</p>
+
+<pre><code class="language-yaml">autoscalers:
+- name: autoscaler1
+  description: &quot;As1&quot;
+
+  scale:
+    kind: aws_autoscaling_group
+    config:
+      aws_region: &quot;us-west-2&quot;
+      auto_scaling_group_name: &quot;slok-ECSAutoScalingGroup-1PNI4RX8BD5XU&quot;
+
+  inputters:
+  - name: aws_sqs_constant_factor
+    description: &quot;Will get a number based on the queue messages and a constant factor division&quot;
+    gather:
+      kind: aws_sqs
+      config:
+        queue_url: &quot;https://sqs.us-west-2.amazonaws.com/016386521566/slok-render-jobs&quot;
+        queue_property: &quot;ApproximateNumberOfMessages&quot;
+        aws_region: &quot;us-west-2&quot;
+
+    arrange:
+      kind: constant_factor
+      config:
+        factor: 10
+        round_type: &quot;ceil&quot;
+# Autoscaler 2
+- name: autoscaler2
+  description: &quot;As2&quot;
+
+  scale:
+    kind: aws_autoscaling_group
+    config:
+      aws_region: &quot;us-west-2&quot;
+      auto_scaling_group_name: &quot;slok-ECSAutoScalingGroup-1PNI4RX8BD5XU&quot;
+
+  inputters:
+  - name: aws_sqs_constant_factor
+    description: &quot;Will get a number based on the queue messages and a constant factor division&quot;
+    gather:
+      kind: aws_sqs
+      config:
+        queue_url: &quot;https://sqs.us-west-2.amazonaws.com/016386521566/slok-render-jobs&quot;
+        queue_property: &quot;ApproximateNumberOfMessages&quot;
+        aws_region: &quot;us-west-2&quot;
+
+    arrange:
+      kind: constant_factor
+      config:
+        factor: 10
+        round_type: &quot;ceil&quot;
+</code></pre>
+
+<h2 id="configuration-example">Configuration example</h2>
+
+<p>This is a real example of multiple autoscalers (services, clusters&hellip;), the file structure is this:</p>
+
+<pre><code class="language-bash">.
+├── cfg-autoscalers
+│   ├── factory
+│   │   ├── analytics.yml
+│   │   ├── processing.yml
+│   │   ├── rendering.yml
+│   │   └── transcoding.yml
+│   └── infra
+│       └── cluster.yml
+└── ladder.yml
+</code></pre>
+
+<h3 id="ladder-yml"><code>ladder.yml</code></h3>
+
+<pre><code class="language-yaml">global:
+  metrics_path: /metrics
+  interval: 30s
+  warmup: 3m
+  scaling_wait_timeout: 2m
+
+autoscaler_files:
+  - &quot;cfg-autoscalers/factory/*.yml&quot;
+  - &quot;cfg-autoscalers/infra/*.yml&quot;
+</code></pre>
+
+<h3 id="cfg-autoscalers-infra-cluster-yml"><code>cfg-autoscalers/infra/cluster.yml</code></h3>
+
+<pre><code class="language-yaml">autoscalers:
+- name: ECS_cluster
+  disabled: false
+  description: &gt;
+    ECS autoscaler will set the correct number of instances on an ECS autoscaling
+    group based on the memory or cpu reserved percentage of that autoscaler cloudwatch
+    metrics
+  interval: 1m
+  scaling_wait_timeout: 6m
+  scale:
+    kind: aws_autoscaling_group
+    config:
+      auto_scaling_group_name: &quot;prod-ECSAutoScalingGroup-F4VEQM9FVL2U&quot;
+      aws_region: &quot;eu-west-1&quot;
+      scale_up_wait_duration: 3m
+      scale_down_wait_duration: 1m30s
+
+  solve:
+    kind: bound
+    config:
+      kind: max
+
+  filters:
+    - kind: ecs_running_tasks
+      config:
+        aws_region: eu-west-1
+        cluster_name: prod-ECSCluster1-OIA8GT0KCY6X
+        max_pending_tasks_allowed: 0
+        max_checks: 10
+        error_on_max_checks: true
+        when: scale_down
+
+    - kind: scaling_kind_interval
+      config:
+        scale_up_duration: 3m
+        scale_down_duration: 6m
+
+    - kind: limit
+      config:
+        max: 300
+        min: 8
+
+  inputters:
+  - name: memory_reserved_based_input
+    description: &gt;
+      This input will arrange the required number of instances on a cluster based
+      on an ECS cluster memory reservation
+    gather:
+      kind: prometheus_metric
+      config:
+        addresses:
+          - http://prometheus.prod.bi.themotion.lan
+          - http://prometheus2.prod.bi.themotion.lan
+        query: cluster:container_memory_remaining_for_reservation:bytes{type=&quot;ecs&quot;}
+    arrange:
+      kind: threshold
+      config:
+        scaleup_threshold: 16106127360
+        scaledown_threshold: 48318382080
+        scaleup_percent: 40
+        scaledown_percent: 20
+        scaleup_max_quantity: 10
+        scaledown_max_quantity: 2
+        scaleup_min_quantity: 1
+        scaledown_min_quantity: 1
+        inverse: true
+
+  - name: cpu_reserved_based_input
+    description: &gt;
+      This input will arrange the required number of instances on a cluster based
+      on an ECS cluster cpu reservation
+    gather:
+      kind: prometheus_metric
+      config:
+        addresses:
+          - http://prometheus.prod.bi.themotion.lan
+          - http://prometheus2.prod.bi.themotion.lan
+        query: cluster:container_cpu_remaining_for_reservation:cpu_shares{type=&quot;ecs&quot;}
+    arrange:
+      kind: threshold
+      config:
+        scaleup_threshold: 8192
+        scaledown_threshold: 24576
+        scaleup_percent: 40
+        scaledown_percent: 20
+        scaleup_max_quantity: 10
+        scaledown_max_quantity: 2
+        scaleup_min_quantity: 1
+        scaledown_min_quantity: 1
+        inverse: true
+
+</code></pre>
+
+<h3 id="cfg-autoscalers-factory-rendering-yml"><code>cfg-autoscalers/factory/rendering.yml</code></h3>
+
+<pre><code class="language-yaml">autoscalers:
+- name: render_instances
+  disabled: false
+  description: &quot;Render autoscaler will autoscale machines based on the SQS video rendering jobs&quot;
+  interval: 1m
+  scaling_wait_timeout: 6m
+
+  scale:
+    kind: aws_autoscaling_group
+    config:
+      auto_scaling_group_name: &quot;prod-ami-render-AMIAutoScalingGroup-1X8U7Q03UC4BC&quot;
+      aws_region: &quot;eu-west-1&quot;
+      scale_up_wait_duration: 1m
+      scale_down_wait_duration: 5s
+
+  filters:
+    - kind: scaling_kind_interval
+      config:
+        scale_up_duration: 30s
+        scale_down_duration: 20m
+
+    - kind: limit
+      config:
+        max: 2500
+        min: 3
+
+  inputters:
+  - name: render_instances_based_on_jobs_queues
+    description: &quot;Get quantity based on the jobs length with a constant factor&quot;
+
+    gather:
+      kind: prometheus_metric
+      config:
+        addresses:
+          - http://prometheus.prod.bi.themotion.lan
+          - http://prometheus2.prod.bi.themotion.lan
+        query: number_pending_jobs{queue=&quot;render&quot;}
+    arrange:
+      kind: constant_factor
+      config:
+        factor: 5
+        round_type: &quot;ceil&quot;
+</code></pre>
+
+<h3 id="cfg-autoscalers-factory-processing-yml"><code>cfg-autoscalers/factory/processing.yml</code></h3>
+
+<pre><code class="language-yaml">autoscalers:
+- name: processor_service
+  disabled: false
+  description: &quot;Procesor service will autoscale instances based on the SQS processing jobs&quot;
+  interval: 30s
+  scaling_wait_timeout: 5m
+
+  scale:
+    kind: aws_ecs_service
+    config:
+      aws_region: eu-west-1
+      cluster_name: prod-ECSCluster1-OIA8GT0KCY6X
+      service_name: processor
+
+  filters:
+    - kind: scaling_kind_interval
+      config:
+        scale_up_duration: 1m
+        scale_down_duration: 5m
+
+    - kind: limit
+      config:
+        max: 1000
+        min: 2
+
+  inputters:
+  - name: service_instances_based_on_jobs_queue
+    description: &quot;Get quantity based on the jobs length with a constant factor&quot;
+
+    gather:
+      kind: aws_sqs
+      config:
+        queue_url: &quot;https://sqs.eu-west-1.amazonaws.com/843176375373/prod-processing&quot;
+        queue_property: &quot;ApproximateNumberOfMessages&quot;
+        aws_region: &quot;eu-west-1&quot;
+    arrange:
+      kind: constant_factor
+      config:
+        factor: 10
+        round_type: &quot;ceil&quot;
+</code></pre>
+
+<h3 id="cfg-autoscalers-factory-transcoding-yml"><code>cfg-autoscalers/factory/transcoding.yml</code></h3>
+
+<pre><code class="language-yaml">autoscalers:
+- name: transcoder_service
+  disabled: false
+  description: &quot;Transcodder service will autoscale instances based on the SQS video rendering jobs&quot;
+  interval: 30s
+  scaling_wait_timeout: 5m
+
+  scale:
+    kind: aws_ecs_service
+    config:
+      aws_region: eu-west-1
+      cluster_name: prod-ECSCluster1-OIA8GT0KCY6X
+      service_name: transcoder
+
+  filters:
+    - kind: scaling_kind_interval
+      config:
+        scale_up_duration: 1m
+        scale_down_duration: 5m
+
+    - kind: limit
+      config:
+        max: 800
+        min: 2
+
+  inputters:
+  - name: service_instances_based_on_jobs_queue
+    description: &quot;Get quantity based on the jobs length with a constant factor&quot;
+
+    gather:
+      kind: prometheus_metric
+      config:
+        addresses:
+          - http://prometheus.prod.bi.themotion.lan
+          - http://prometheus2.prod.bi.themotion.lan
+        query: number_pending_jobs{queue=&quot;transcode&quot;}
+    arrange:
+      kind: constant_factor
+      config:
+        factor: 10
+        round_type: &quot;ceil&quot;
+
+</code></pre>
+
+<h3 id="cfg-autoscalers-factory-analytics-yml"><code>cfg-autoscalers/factory/analytics.yml</code></h3>
+
+<pre><code class="language-yaml">autoscalers:
+- name: analytics_mine_service
+  disabled: false
+  description: &quot;Analytics Mine autoscales based on the number of import jobs present in the queue&quot;
+  interval: 30s
+  scaling_wait_timeout: 5m
+
+  scale:
+    kind: aws_ecs_service
+    config:
+      aws_region: eu-west-1
+      cluster_name: prod-ECSCluster1-OIA8GT0KCY6X
+      service_name: analytics-mine
+
+  filters:
+    - kind: scaling_kind_interval
+      config:
+        scale_up_duration: 1m
+        scale_down_duration: 5m
+
+    - kind: limit
+      config:
+        max: 50
+        min: 0
+
+  inputters:
+  - name: service_instances_based_on_jobs_queue
+    description: &quot;Get quantity based on the jobs length with a constant factor&quot;
+
+    gather:
+      kind: aws_sqs
+      config:
+        queue_url: &quot;https://sqs.eu-west-1.amazonaws.com/843176375373/prod-analytics-batches&quot;
+        queue_property: &quot;ApproximateNumberOfMessages&quot;
+        aws_region: &quot;eu-west-1&quot;
+    arrange:
+      kind: constant_factor
+      config:
+        factor: 5
+        round_type: &quot;ceil&quot;
+
+- name: analytics_forge_service
+  disabled: false
+  description: &quot;Analytics Forge autoscales based on the number of jobs in the queue&quot;
+  interval: 30s
+  scaling_wait_timeout: 5m
+
+  scale:
+    kind: aws_ecs_service
+    config:
+      aws_region: eu-west-1
+      cluster_name: prod-ECSCluster1-OIA8GT0KCY6X
+      service_name: analytics-forge
+
+  filters:
+    - kind: scaling_kind_interval
+      config:
+        scale_up_duration: 1m
+        scale_down_duration: 5m
+
+    - kind: limit
+      config:
+        max: 5
+        min: 1
+
+  inputters:
+  - name: service_instances_based_on_jobs_queue
+    description: &quot;Get quantity based on the jobs length with a constant factor&quot;
+
+    gather:
+      kind: aws_sqs
+      config:
+        queue_url: &quot;https://sqs.eu-west-1.amazonaws.com/843176375373/prod-analytics-jobs&quot;
+        queue_property: &quot;ApproximateNumberOfMessages&quot;
+        aws_region: &quot;eu-west-1&quot;
+    arrange:
+      kind: constant_factor
+      config:
+        factor: 360
+        round_type: &quot;ceil&quot;
+
+</code></pre>
+
+
+			<aside class="copyright" role="note">
+				
+				&copy; 2017 Released under the MIT license &ndash;
+				
+				Documentation built with
+				<a href="https://www.gohugo.io" target="_blank">Hugo</a>
+				using the
+				<a href="http://github.com/digitalcraftsman/hugo-material-docs" target="_blank">Material</a> theme.
+			</aside>
+
+			<footer class="footer">
+				
+
+<nav class="pagination" aria-label="Footer">
+  <div class="previous">
+  
+      <a href="https://themotion.github.io/ladder/operating/metrics/" title="Metrics">
+        <span class="direction">
+          Previous
+        </span>
+        <div class="page">
+          <div class="button button-previous" role="button" aria-label="Previous">
+            <i class="icon icon-back"></i>
+          </div>
+          <div class="stretch">
+            <div class="title">
+              Metrics
+            </div>
+          </div>
+        </div>
+      </a>
+  
+  </div>
+
+  <div class="next">
+  
+      <a href="https://themotion.github.io/ladder/operating/running/" title="Running">
+        <span class="direction">
+          Next
+        </span>
+        <div class="page">
+          <div class="stretch">
+            <div class="title">
+              Running
+            </div>
+          </div>
+          <div class="button button-next" role="button" aria-label="Next">
+            <i class="icon icon-forward"></i>
+          </div>
+        </div>
+      </a>
+  
+  </div>
+</nav>
+
+
+
+
+
+			</footer>
+		</div>
+	</article>
+
+	<div class="results" role="status" aria-live="polite">
+		<div class="scrollable">
+			<div class="wrapper">
+				<div class="meta"></div>
+				<div class="list"></div>
+			</div>
+		</div>
+	</div>
+</main>
+
+    <script>
+    
+      var base_url = 'https:\/\/themotion.github.io\/ladder\/';
+      var repo_id  = 'themotion\/ladder';
+    
+    </script>
+
+    <script src="https://themotion.github.io/ladder/javascripts/application.js"></script>
+    
+
+    <script>
+      /* Add headers to scrollspy */
+      var headers   = document.getElementsByTagName("h2");
+      var scrollspy = document.getElementById('scrollspy');
+
+      if(scrollspy) {
+        if(headers.length > 0) {
+          for(var i = 0; i < headers.length; i++) {
+            var li = document.createElement("li");
+            li.setAttribute("class", "anchor");
+
+            var a  = document.createElement("a");
+            a.setAttribute("href", "#" + headers[i].id);
+            a.setAttribute("title", headers[i].innerHTML);
+            a.innerHTML = headers[i].innerHTML;
+            
+            li.appendChild(a)
+            scrollspy.appendChild(li);
+          }
+        } else {
+          scrollspy.parentElement.removeChild(scrollspy)
+        }
+        
+
+        /* Add permanent link next to the headers */
+        var headers = document.querySelectorAll("h1, h2, h3, h4, h5, h6");
+
+        for(var i = 0; i < headers.length; i++) {
+            var a = document.createElement("a");
+            a.setAttribute("class", "headerlink");
+            a.setAttribute("href", "#" + headers[i].id);
+            a.setAttribute("title", "Permanent link")
+            a.innerHTML = "#";
+            headers[i].appendChild(a);
+        }
+      }
+    </script>
+
+    
+
+    <script src="//gohugo.io/js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>
