@@ -1,8 +1,9 @@
 baseurl = "https://themotion.github.io/ladder/"
-title = "Ladder documentation"
+title = "Ladder docs"
 languageCode = "en-us"
 metadataformat = "yaml"
 theme = "hugo-material-docs"
+canonifyURLs = true
 
 [params]
 	# General information

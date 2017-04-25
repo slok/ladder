@@ -16,7 +16,7 @@ for example, docker containers, AWS instances, simple binnary processes, files..
 
 ## Documentation
 
-Check out the documentation:
+Check out the online documentation at https://themotion.github.io/ladder or offline:
 
 ```bash
 $ make serve_docs

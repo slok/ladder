@@ -1,5 +1,5 @@
 # The following are targers that do not exist in the filesystem as real files and should be always executed by make
-.PHONY: default deps base build dev shell start stop image test vet gogen build_release dep_install dep_update docs_build docs_shell serve_docs generate_docs
+.PHONY: default deps base build dev shell start stop image test vet gogen build_release dep_install dep_update docs_build docs_shell serve_docs publish_docs
 
 # Name of this service/application
 SERVICE_NAME := ladder
@@ -124,7 +124,12 @@ docs_shell: docs_build
 	cd environment/docs && docker-compose run --service-ports --rm hugo /bin/bash
 
 serve_docs: docs_build
-	cd environment/docs && docker-compose run --service-ports --rm hugo /bin/bash -c 'hugo serve --bind=0.0.0.0'
+	cd environment/docs && docker-compose run --service-ports --rm hugo /bin/bash -c 'hugo serve -s ./docs --bind=0.0.0.0'
 
-generate_docs: docs_build
-	cd environment/docs && docker-compose run --rm hugo /bin/bash -c "rm -rf ./public && mkdir ./public && hugo -s ./docs/ -d ../public"
+publish_docs: docs_build
+	rm -rf public
+	git worktree prune
+	-git worktree add -B gh-pages public origin/gh-pages # No problem if already checked
+	cd environment/docs && docker-compose run --rm hugo /bin/bash -c "hugo -s ./docs/ -d ../public"
+	cd public && git add --all && git commit -m "Publishing to gh-pages" && cd ..
+	git push origin gh-pages
