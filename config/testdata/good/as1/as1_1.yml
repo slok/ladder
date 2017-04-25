@@ -1,0 +1,70 @@
+# Declaration of the multiple autoscalers
+autoscalers:
+# Block of the autoscaler starts with its name
+- name: random_even_odd_print_autoscaler
+  # The description of the autoscaler
+  description: "A simple autoscaler that will print when scaling up or down. It scales up when random number is odd and scales down when even between numbers 0 and 9 "
+  # autoscaler interval
+  interval: "5s"
+  # autoscaler warmup
+  warmup: 1m
+  # autoscaler scaling wait timeout
+  scaling_wait_timeout: 5m
+  # disabled will disable the autoscaler making not to load on start of Ladder
+  disabled: true
+
+  # scale block, the target of scaling
+  scale:
+    kind: stdout
+    config:
+      message_prefix: "[RANDOM_SCALER]"
+
+  # Solve block, this block will guarantee that only one resulting iput will be pass
+  # to the scaler when we have multiple inputs
+  solve:
+    kind: max
+    config:
+
+  # Filters will filter the result of the solver before sending them to the scaler
+  # It will apply the filter and return a new result passing through the chain
+  filters:
+    # 1st filter
+    - kind: scaling_kind_interval
+      config:
+        scale_up_duration: 30s
+        scale_down_duration: 1m
+    # 2nd filter
+    - kind: "limit"
+      config:
+          max: 25
+          min: 5
+
+  # Inputters are the multiple inputs that will be passed to the solver
+  inputters:
+  - name: random_even_odd
+    description: "up when even, down when odd"
+    # One of the inputs
+    gather:
+      kind: random
+      config:
+        max_limit: 10
+        min_limit: 0
+    # One of the inputs that will be run agains the gather block data inside this inputter
+    arrange:
+      kind: in_list
+      config:
+        match_downscale: [0, 2, 4, 6, 8]
+        match_upscale: [1, 2, 5, 7, 9]
+        match_up_magnitude:   200
+        match_down_magnitude: 50
+  # Another inputter, this block and the others in this level will "compete" to be the scaling input, this will decide the solver
+  - name: dummy
+    description: "Dummy inputter"
+    gather:
+      kind: dummy
+      config:
+        quantity: 10
+    arrange:
+      kind: dummy
+      config:
+        quantity: 15

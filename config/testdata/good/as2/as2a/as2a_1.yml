@@ -1,0 +1,25 @@
+autoscalers:
+- name: render_amis_autoscaler
+  description: "This auto scaler will scale based on the SQS visible messages having in mind that we want to process all the queue in one hour, knowing that 1 machine can process 10 messgaes per hour, it will scale the scalation group based on thsi information"
+
+  scale:
+    kind: aws_autoscaling_group
+    config:
+      aws_region: "us-west-2"
+      auto_scaling_group_name: "slok-ECSAutoScalingGroup-1PNI4RX8BD5XU"
+
+  inputters:
+  - name: aws_sqs_constant_factor
+    description: "Will get a number based on the queue messages and a constant factor division"
+    gather:
+      kind: aws_sqs
+      config:
+        queue_url: "https://sqs.us-west-2.amazonaws.com/016386521566/slok-render-jobs"
+        queue_property: "ApproximateNumberOfMessages"
+        aws_region: "us-west-2"
+
+    arrange:
+      kind: constant_factor
+      config:
+        factor: 10
+        round_type: "ceil"

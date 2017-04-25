@@ -1,0 +1,108 @@
+autoscalers:
+- name: "autoscaler_1"
+  description: "A simple autoscaler that will print when scaling up or down. It scales up when random number is odd and scales down when even between numbers 0 and 9 "
+  interval: "5s"
+  warmup: 1m
+  scaling_wait_timeout: 5m
+  disabled: true
+
+  scale:
+    kind: stdout
+    config:
+      message_prefix: "[RANDOM_SCALER]"
+
+  solve:
+    kind: max
+    config:
+
+  filters:
+    # 1st filter
+    - kind: scaling_kind_interval
+      config:
+        scale_up_duration: 30s
+        scale_down_duration: 1m
+    # 2nd filter
+    - kind: "limit"
+      config:
+          max: 25
+          min: 5
+
+  inputters:
+  - name: random_even_odd
+    description: "up when even, down when odd"
+    gather:
+      kind: random
+      config:
+        max_limit: 10
+        min_limit:
+    arrange:
+      kind: in_list
+      config:
+        match_downscale: [0, 2, 4, 6, 8]
+        match_upscale: [1, 2, 5, 7, 9]
+        match_up_magnitude:   200
+        match_down_magnitude: 50
+  - name: dummy
+    description: "Dummy inputter"
+    gather:
+      kind: dummy
+      config:
+        quantity: 10
+    arrange:
+      kind: dummy
+      config:
+        quantity: 15
+
+- name: "autoscaler_1"
+  description: "A simple autoscaler that will print when scaling up or down. It scales up when random number is odd and scales down when even between numbers 0 and 9 "
+  interval: "5s"
+  warmup: 1m
+  scaling_wait_timeout: 5m
+  disabled: true
+
+  scale:
+    kind: stdout
+    config:
+      message_prefix: "[RANDOM_SCALER]"
+
+  solve:
+    kind: max
+    config:
+
+  filters:
+    # 1st filter
+    - kind: scaling_kind_interval
+      config:
+        scale_up_duration: 30s
+        scale_down_duration: 1m
+    # 2nd filter
+    - kind: "limit"
+      config:
+          max: 25
+          min: 5
+
+  inputters:
+  - name: random_even_odd
+    description: "up when even, down when odd"
+    gather:
+      kind: random
+      config:
+        max_limit: 10
+        min_limit:
+    arrange:
+      kind: in_list
+      config:
+        match_downscale: [0, 2, 4, 6, 8]
+        match_upscale: [1, 2, 5, 7, 9]
+        match_up_magnitude:   200
+        match_down_magnitude: 50
+  - name: dummy
+    description: "Dummy inputter"
+    gather:
+      kind: dummy
+      config:
+        quantity: 10
+    arrange:
+      kind: dummy
+      config:
+        quantity: 15

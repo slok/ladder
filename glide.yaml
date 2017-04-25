@@ -1,0 +1,20 @@
+package: github.com/themotion/ladder
+import:
+- package: gopkg.in/yaml.v2
+- package: github.com/Sirupsen/logrus
+- package: github.com/aws/aws-sdk-go
+- package: github.com/golang/mock
+  subpackages:
+  - gomock
+- package: github.com/prometheus/client_golang
+  subpackages:
+  - prometheus
+- package: github.com/beorn7/perks
+  subpackages:
+  - quantile
+- package: github.com/julienschmidt/httprouter
+  version: v1.1
+- package: golang.org/x/net
+  subpackages:
+  - context
+  - context/ctxhttp

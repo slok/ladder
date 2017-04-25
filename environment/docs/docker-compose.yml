@@ -1,0 +1,13 @@
+version: "2"
+services:
+  hugo:
+    build:
+      context: ../..
+      dockerfile: environment/docs/Dockerfile
+    volumes:
+      - ../../:/code
+      - ~/.gitconfig:/home/ladder/.gitignore:ro
+      - ~/.ssh:/home/ladder/.ssh:ro
+      - ~/.bash_history.ladder-docs:/home/hugo/.bash_history
+    ports:
+      - "1313:1313"

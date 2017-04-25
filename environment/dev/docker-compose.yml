@@ -1,0 +1,22 @@
+version: "2"
+services:
+  ladder:
+    build:
+      context: ../..
+      dockerfile: environment/dev/Dockerfile
+    volumes:
+      - ../..:/go/src/github.com/themotion/ladder
+      - ~/.gitconfig:/home/ladder/.gitignore:ro
+      - ~/.ssh:/home/ladder/.ssh:ro
+      - ~/.bash_history.ladder:/home/ladder/.bash_history
+    environment:
+      - ENVIRONMENT=local
+      - AWS_REGION
+      - AWS_DEFAULT_REGION=${AWS_REGION}
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_SESSION_TOKEN
+
+    command: "go build -o ./bin/ladder ./cmd/ladder && ./bin/ladder"
+    ports:
+      - "9094:9094"

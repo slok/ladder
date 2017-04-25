@@ -1,0 +1,23 @@
+
+# Global app configuration
+global:
+  # Prometheus metrics endpoint
+  metrics_path: /metrics
+  # Global  interval, it will gather data every declared interval if an
+  # autoscaler doesn't have an inteval it will inherit this one
+  interval: 30s
+  # Global warmup. Is the time interval that the scaler must wait before
+  # executing a real scale for the first time, this allows us to don't take decisions
+  # quickly when Ladder is run, for the first time, after a deployment
+  # or after a failure. This is conservative. If an autoscaler doesn't
+  # have warmup it will inherit this one
+  warmup: 3m
+
+  # Global scaling_wait_timeout will timeout if the waiting process after a successful
+  # scalation is higher than this setting
+  scaling_wait_timeout: 1m
+
+# The paths where the autoscalers configuration is
+autoscaler_files:
+  - testdata/good/as1/*.yml
+  - testdata/good/as2/as2a/*.yml

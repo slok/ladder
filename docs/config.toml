@@ -1,0 +1,88 @@
+baseurl = "https://themotion.github.io/ladder/"
+title = "Ladder documentation"
+languageCode = "en-us"
+metadataformat = "yaml"
+theme = "hugo-material-docs"
+
+[params]
+	# General information
+	author = "TheMotion"
+	description = "A flexible and reliable autoscaler"
+	copyright = "Released under the MIT license"
+
+	# Repository
+	provider = "GitHub"
+	repo_url = "https://github.com/themotion/ladder"
+
+	version = "1.0.0"
+	logo = "images/logo.png"
+	favicon = ""
+
+	permalink = "#"
+
+	# Custom assets
+	custom_css = []
+	custom_js  = []
+
+	# Syntax highlighting theme
+	highlight_css  = ""
+
+	[params.palette]
+    	primary = "deep-purple"
+    	accent  = "light-blue"
+
+    [params.font]
+    	text = "Roboto"
+    	# code = "Source Code Pro"
+		code = "Roboto Mono"
+
+# -----------
+
+# - introduction
+#	- overview
+# 	- installing
+[[menu.main]]
+  name   = "Introduction"
+  url    = "/introduction"
+  weight = 0
+  pre    = ""
+
+# - concepts
+#	- autoscaler
+#	- blocks
+[[menu.main]]
+  name   = "Concepts"
+  url    = "/concepts"
+  weight = 1
+  pre    = ""
+
+# - Available blocks
+#	- Inputters
+#	- arrangers
+#	- solvers
+#	- filters
+#	- scalers
+[[menu.main]]
+  name   = "Available blocks"
+  url    = "/blocks"
+  weight = 2
+  pre    = ""
+
+# - Operating
+#	- running
+#	- configuration
+# 	- metrics
+# 	- API
+# 	- Using as a framework
+[[menu.main]]
+  name   = "Operating"
+  url    = "/operating"
+  weight = 3
+  pre    = ""
+
+# - License
+[[menu.main]]
+  name   = "License"
+  url    = "/license"
+  weight = 4
+  pre    = ""

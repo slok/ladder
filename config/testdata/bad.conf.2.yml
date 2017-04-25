@@ -1,0 +1,8 @@
+global:
+  metrics_path: /metrics
+  interval: 30s
+  warmup: 3m
+  scaling_wait_timeout: 1m
+
+autoscaler_files:
+  - testdata/bad/as1.yml
