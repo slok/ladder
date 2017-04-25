@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Ladder documentation</title>
+    <title>Ladder docs</title>
     <link>https://themotion.github.io/ladder/index.xml</link>
-    <description>Recent content on Ladder documentation</description>
+    <description>Recent content on Ladder docs</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Released under the MIT license</copyright>
@@ -1282,7 +1282,7 @@ the min and max of the scaling mode to a fixed value&lt;/p&gt;
 
 &lt;div class=&#34;admonition note&#34;&gt;
 &lt;p class=&#34;admonition-title&#34;&gt;Note&lt;/p&gt;
-&lt;p&gt;With this arranger (and the &lt;a href=&#34;https://themotion.github.io/ladder/ladder/blocks/filters/#scaling-kind-interval&#34;&gt;&lt;code&gt;scaling_kind_interval&lt;/code&gt;&lt;/a&gt; filterer) we met the requirements for a dynamic and independent growth/reduction
+&lt;p&gt;With this arranger (and the &lt;a href=&#34;https://themotion.github.io/ladder/blocks/filters/#scaling-kind-interval&#34;&gt;&lt;code&gt;scaling_kind_interval&lt;/code&gt;&lt;/a&gt; filterer) we met the requirements for a dynamic and independent growth/reduction
 like the described on Netflix tech post: &lt;a href=&#34;http://techblog.netflix.com/2012/01/auto-scaling-in-amazon-cloud.html&#34;&gt;&lt;code&gt;Auto scaling in amazon cloud&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;/div&gt;
 </description>
@@ -1594,7 +1594,7 @@ scaling target with the received quantity (or if it didn&amp;rsquo;t change then
       <guid>https://themotion.github.io/ladder/concepts/autoscaler/</guid>
       <description>
 
-&lt;p&gt;A ladder autoscaler is built with different kind of &lt;a href=&#34;https://themotion.github.io/ladder/ladder/concepts/blocks/&#34;&gt;blocks&lt;/a&gt;,
+&lt;p&gt;A ladder autoscaler is built with different kind of &lt;a href=&#34;https://themotion.github.io/ladder/concepts/blocks/&#34;&gt;blocks&lt;/a&gt;,
 in the next section you can read the difference between these different kind of blocks.&lt;/p&gt;
 
 &lt;h2 id=&#34;flow&#34;&gt;Flow&lt;/h2&gt;
@@ -1723,7 +1723,7 @@ make tests and tune your autoscalers to get the best scaling actions.&lt;/p&gt;
 &lt;p&gt;Ladder will give you the tools so you don&amp;rsquo;t waste time creating the autoscalers
 and instead using this time on tunning your company autoscaling politics&lt;/p&gt;
 
-&lt;p&gt;Lets start with the &lt;a href=&#34;https://themotion.github.io/ladder/ladder/introduction/overview/&#34;&gt;overview&lt;/a&gt;!&lt;/p&gt;
+&lt;p&gt;Lets start with the &lt;a href=&#34;https://themotion.github.io/ladder/introduction/overview/&#34;&gt;overview&lt;/a&gt;!&lt;/p&gt;
 </description>
     </item>
     

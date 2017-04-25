@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Concepts-rsses on Ladder documentation</title>
+    <title>Concepts-rsses on Ladder docs</title>
     <link>https://themotion.github.io/ladder/concepts/index.xml</link>
-    <description>Recent content in Concepts-rsses on Ladder documentation</description>
+    <description>Recent content in Concepts-rsses on Ladder docs</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Released under the MIT license</copyright>
@@ -147,7 +147,7 @@ scaling target with the received quantity (or if it didn&amp;rsquo;t change then
       <guid>https://themotion.github.io/ladder/concepts/autoscaler/</guid>
       <description>
 
-&lt;p&gt;A ladder autoscaler is built with different kind of &lt;a href=&#34;https://themotion.github.io/ladder/ladder/concepts/blocks/&#34;&gt;blocks&lt;/a&gt;,
+&lt;p&gt;A ladder autoscaler is built with different kind of &lt;a href=&#34;https://themotion.github.io/ladder/concepts/blocks/&#34;&gt;blocks&lt;/a&gt;,
 in the next section you can read the difference between these different kind of blocks.&lt;/p&gt;
 
 &lt;h2 id=&#34;flow&#34;&gt;Flow&lt;/h2&gt;
