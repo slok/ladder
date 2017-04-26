@@ -1,4 +1,4 @@
-# Ladder
+# Ladder [![Build Status](https://travis-ci.org/themotion/ladder.svg?branch=master)](https://travis-ci.org/themotion/ladder)
 
 Ladder is a simple and small program that is used to autoscale *things*, when we
 mean *things* we are talking about any kind of stuff that can increase or decrease,
