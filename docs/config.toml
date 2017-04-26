@@ -15,7 +15,7 @@ canonifyURLs = true
 	provider = "GitHub"
 	repo_url = "https://github.com/themotion/ladder"
 
-	version = "1.0.0"
+	version = "0.1.0"
 	logo = "images/logo.png"
 	favicon = ""
 
