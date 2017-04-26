@@ -14,6 +14,10 @@ for example, docker containers, AWS instances, simple binnary processes, files..
 * Easy to deploy and set up running
 * Tons of third party blocks ready to use (AWS, Prometheus...)
 
+## Architecture
+
+![](docs/static/img/architecture.png)
+
 ## Documentation
 
 Check out the online documentation at https://themotion.github.io/ladder or offline:
@@ -23,6 +27,10 @@ $ make serve_docs
 ```
 
 Go to http://127.0.0.1:1313 on the browser
+
+## Prometheus metrics
+
+![](docs/static/img/grafana.png)
 
 ## Changelog
 
