@@ -9,7 +9,7 @@ canonifyURLs = true
 	# General information
 	author = "TheMotion"
 	description = "A flexible and reliable autoscaler"
-	copyright = "Released under the MIT license"
+	copyright = "Released under the BSD 3-clause 'New' or 'Revised' license"
 
 	# Repository
 	provider = "GitHub"
@@ -37,6 +37,11 @@ canonifyURLs = true
     	# code = "Source Code Pro"
 		code = "Roboto Mono"
 
+[social]
+	twitter = "themotionvideo"
+	github  = "themotion"
+	email   = "tech-honey-badger@themotion.com"
+  
 # -----------
 
 # - introduction
@@ -84,6 +89,6 @@ canonifyURLs = true
 # - License
 [[menu.main]]
   name   = "License"
-  url    = "/license"
+  url    = "https://github.com/themotion/ladder/blob/master/LICENSE"
   weight = 4
   pre    = ""
