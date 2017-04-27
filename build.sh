@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/sh -x
 
 # Get information
 VERSION=`cat ./VERSION`

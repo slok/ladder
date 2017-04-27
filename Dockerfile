@@ -1,7 +1,7 @@
 FROM golang:1.7-alpine
 
 
-RUN apk --update add musl-dev gcc tar git bash wget && rm -rf /var/cache/apk/*
+RUN apk --update add musl-dev gcc git && rm -rf /var/cache/apk/*
 
 # Create user
 ARG uid=1000
@@ -13,8 +13,6 @@ RUN mkdir -p /go/src/github.com/themotion/ladder/
 RUN chown -R ladder:ladder /go
 
 WORKDIR /go/src/github.com/themotion/ladder/
+COPY . ./
 
 USER ladder
-
-# Install dependency manager
-RUN go get github.com/Masterminds/glide

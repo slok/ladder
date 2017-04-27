@@ -6,7 +6,7 @@ services:
       dockerfile: environment/dev/Dockerfile
     volumes:
       - ../..:/go/src/github.com/themotion/ladder
-      - ~/.gitconfig:/home/ladder/.gitignore:ro
+      - ~/.gitconfig:/home/ladder/.gitconfig:ro
       - ~/.ssh:/home/ladder/.ssh:ro
       - ~/.bash_history.ladder:/home/ladder/.bash_history
     environment:
@@ -17,6 +17,6 @@ services:
       - AWS_SECRET_ACCESS_KEY
       - AWS_SESSION_TOKEN
 
-    command: "go build -o ./bin/ladder ./cmd/ladder && ./bin/ladder"
+    command: /bin/bash -c "go build -o ./bin/ladder ./cmd/ladder && ./bin/ladder"
     ports:
       - "9094:9094"
