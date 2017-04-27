@@ -18,6 +18,21 @@ for example, docker containers, AWS instances, simple binnary processes, files..
 
 ![](docs/static/img/architecture.png)
 
+
+* Inputter: Gets data and returns an scaling quantity result
+    * [Gatherer](https://themotion.github.io/ladder/blocks/gatherers/): Gets the data from any resource
+    * [Arranger](https://themotion.github.io/ladder/blocks/arrangers/): Applies logic to convert the input to an scaling quantity result
+* [Solver](https://themotion.github.io/ladder/blocks/solvers/): Takes one of the multiple results the inputters return.
+* [Filter](https://themotion.github.io/ladder/blocks/filters/): Applies logic and changes(or not) the result of the Solver
+* [Scaler](https://themotion.github.io/ladder/blocks/scalers/): Scales on a target the desired quantity received from the last filter applied, or from the solver if no filters where applied.
+
+
+## Status
+
+Ladder has been autoscaling TheMotion platform in production for more than 6 months. We need to finish
+the documentantion like a quickstart or a tutorial, make the official Docker images and set a list of
+supported providers (at this moment EC2 & ECS only) among other things.
+
 ## Documentation
 
 Check out the online documentation at https://themotion.github.io/ladder or offline:
@@ -40,6 +55,10 @@ See [changelog](CHANGELOG.md)
 
 See [license](LICENSE)
 
+
 ## Authors
 
 See [authors](AUTHORS) & [contributors](CONTRIBUTORS)
+
+## Maintainers
+See [maintainers](MAINTAINERS.md) to know who is/are the person/people you need to contact.
