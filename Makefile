@@ -106,14 +106,13 @@ gogen: build
 	cd environment/dev && docker-compose run --rm $(SERVICE_NAME) /bin/bash -c 'go generate `glide nv`'
 
 # Build the production themotion image based on the public one
-image: base
+image: build_release
 	docker build \
 	-t $(SERVICE_NAME) \
 	-t $(SERVICE_NAME):latest \
 	-t $(SERVICE_NAME):$(COMMIT) \
 	-t $(SERVICE_NAME):$(BRANCH) \
-	-f environment/prod/Dockerfile \
-	environment/prod
+	-f environment/prod/Dockerfile .
 
 # Docs command
 docs_build:

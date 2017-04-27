@@ -13,6 +13,5 @@ RUN mkdir -p /go/src/github.com/themotion/ladder/
 RUN chown -R ladder:ladder /go
 
 WORKDIR /go/src/github.com/themotion/ladder/
-COPY . ./
 
 USER ladder
