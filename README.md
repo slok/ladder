@@ -1,8 +1,28 @@
 # Ladder [![Build Status](https://travis-ci.org/themotion/ladder.svg?branch=master)](https://travis-ci.org/themotion/ladder)
 
-Ladder is a simple and small program that is used to autoscale *things*, when we
-mean *things* we are talking about any kind of stuff that can increase or decrease,
-for example, docker containers, AWS instances, simple binnary processes, files...
+Ladder is a simple and flexible general purpose autoscaler.
+
+The idea behind Ladder is to autoscale anything configuring and combining reusable [blocks](https://themotion.github.io/ladder/concepts/blocks/) 
+of different types in a yaml file. These blocks are flexible and easy to extend, so anyone can use or develop any kind of scaling targets, 
+policies or inputs.
+
+Some examples that Ladder can do at this moment:
+
+* Get number of messages in a SQS queue, apply a constant factor to this input, then use this quantity to upscale or downscale the EC2 machines of an AWS AutoscalingGroup
+* Get the latency of a service from a prometheus metric, is this latency is greater than 800ms, add one more instance to the actual number of instances of that service running on ECS,
+if is less than 200ms remove one instance to the running ones instead.
+
+We want to add more blocks to the ones that Ladder provides by default (ECS & EC2 ASG), for example:
+
+* Intpus:
+    * Get metrics from Datadog
+    * Get number of messages from Rabbitmq queue
+* Filters:
+    * Apply statistic prediction based on a metric, previous autoscaling result, etc
+* Scalers:
+    * Kubernetes replicas
+    * Instance VMs on  GCE
+    * Azure virtual machines
 
 ## Features
 
