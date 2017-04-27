@@ -5,3 +5,6 @@ make vet
 
 # Run tests
 make test
+
+# Push to docker hub
+make push
