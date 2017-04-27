@@ -8,8 +8,8 @@ policies or inputs.
 
 Some examples that Ladder can do at this moment:
 
-* Get number of messages in a SQS queue, apply a constant factor to this input, then use this quantity to upscale or downscale the EC2 machines of an AWS AutoscalingGroup
-* Get the latency of a service from a prometheus metric, is this latency is greater than 800ms, add one more instance to the actual number of instances of that service running on ECS,
+* Get number of messages in a [SQS queue](https://aws.amazon.com/sqs/), apply a constant factor to this input, then use this quantity to upscale or downscale the [EC2 machines](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Instances.html) of an [AWS AutoscalingGroup](http://docs.aws.amazon.com/autoscaling/latest/userguide/AutoScalingGroup.html)
+* Get the latency of a service from a [Prometheus](https://prometheus.io/) metric, is this latency is greater than 800ms, add one more instance to the actual number of instances of that service running on [ECS](https://aws.amazon.com/ecs/),
 if is less than 200ms remove one instance to the running ones instead.
 
 We want to add more blocks to the ones that Ladder provides by default (ECS & EC2 ASG), for example:
