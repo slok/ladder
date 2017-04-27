@@ -14,7 +14,7 @@ if is less than 200ms remove one instance to the running ones instead.
 
 We want to add more blocks to the ones that Ladder provides by default (ECS & EC2 ASG), for example:
 
-* Intpus:
+* Inputs:
     * Get metrics from Datadog
     * Get number of messages from Rabbitmq queue
 * Filters:
