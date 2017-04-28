@@ -35,10 +35,8 @@ go get github.com/themotion/ladder
 You can also build cloning the repository:
 
 ```bash
-$ mkdir -p $GOPATH/src/github.com/themotion
-$ cd $GOPATH/src/github.com/themotion
-$ git clone https://github.com/themotion/ladder.git
-$ cd ladder
+$ git clone https://github.com/themotion/ladder.git $GOPATH/src/github.com/themotion/ladder
+$ cd $GOPATH/src/github.com/themotion/ladder
 $ make build_release
 $ ./bin/ladder --help
 ```
