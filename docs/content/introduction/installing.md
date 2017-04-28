@@ -17,7 +17,12 @@ TODO (when first version uploaded)
 
 ## Docker
 
-TODO (when public released?)
+An official Docker images is available:
+
+```bash
+$ docker pull themotion/ladder
+$ docker run -p 9094:9094 themotion/ladder
+```
 
 ## Building from source
 
