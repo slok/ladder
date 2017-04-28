@@ -17,7 +17,7 @@ TODO (when first version uploaded)
 
 ## Docker
 
-An official Docker images is available:
+An official Docker image is available:
 
 ```bash
 $ docker pull themotion/ladder
