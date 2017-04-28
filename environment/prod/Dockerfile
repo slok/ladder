@@ -13,5 +13,7 @@ RUN chmod 755 /bin/ladder
 ONBUILD COPY ladder.yml /etc/ladder/ladder.yml
 ONBUILD COPY cfg-autoscalers /etc/ladder/cfg-autoscalers
 
+EXPOSE 9094
+
 ENTRYPOINT [ "/bin/ladder" ]
 CMD        [ "-config.file=/etc/ladder/ladder.yml -json.log"]
