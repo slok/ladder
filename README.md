@@ -1,4 +1,4 @@
-# Ladder [![Build Status](https://travis-ci.org/themotion/ladder.svg?branch=master)](https://travis-ci.org/themotion/ladder)
+# Ladder [![Build Status](https://travis-ci.org/themotion/ladder.svg?branch=master)](https://travis-ci.org/themotion/ladder)[![Go Report Card](https://goreportcard.com/badge/github.com/themotion/ladder)](https://goreportcard.com/report/github.com/themotion/ladder)
 
 Ladder is a simple and flexible general purpose autoscaler.
 
