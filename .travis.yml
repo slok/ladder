@@ -13,9 +13,12 @@ before_install:
   # Upgrade default docker
   - sudo apt-get -y update
   - DEBIAN_FRONTEND=noninteractive sudo apt-get -y -o Dpkg::Options::="--force-confnew" --force-yes install docker-engine
+
 script:
   - ./travis-build.sh
 
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
 
 env:
   global:

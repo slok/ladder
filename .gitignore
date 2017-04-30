@@ -31,3 +31,4 @@ bin
 /ladder.yml
 /cfg-autoscalers
 public
+coverage.txt
