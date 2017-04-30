@@ -2,7 +2,7 @@ FROM themotion/ladder_base:latest
 
 USER root
 
-RUN apk --update add tar bash wget g++  && rm -rf /var/cache/apk/*
+RUN apk --update add tar bash curl wget g++  && rm -rf /var/cache/apk/*
 
 USER ladder
 
