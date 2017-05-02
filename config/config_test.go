@@ -98,8 +98,8 @@ func TestConfigCorrect(t *testing.T) {
 			},
 			Autoscaler{
 				Name:        "render_amis_autoscaler",
-				Description: "This auto scaler will scale based on the SQS visible messages having in mind that we want to process all the queue in one hour, knowing that 1 machine can process 10 messgaes per hour, it will scale the scalation group based on thsi information",
-				// These 3 values are defauls
+				Description: "This auto scaler will scale based on the SQS visible messages having in mind that we want to process all the queue in one hour, knowing that 1 machine can process 10 messgaes per hour, it will scale the scalation group based on this information",
+				// These 3 values are defaults
 				Interval:           30 * time.Second,
 				Warmup:             3 * time.Minute,
 				ScalingWaitTimeout: 1 * time.Minute,

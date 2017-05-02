@@ -98,7 +98,7 @@ type CWMetric struct {
 	namespace  string        // namespace
 	statistic  string        // statistic (Sum, Maximum, Minimum, SampleCount, Average)
 	unit       string        // unit # Seconds, Microseconds, Milliseconds, Bytes, Kilobytes, Megabytes, Gigabytes, Terabytes, Bits, Kilobits, Megabits, Gigabits, Terabits, Percent, Count, Bytes/Second, Kilobytes/Second, Megabytes/Second, Gigabytes/Second, Terabytes/Second, Bits/Second, Kilobits/Second, Megabits/Second, Gigabits/ Second, Terabits/Second, Count/Second, None
-	offset     time.Duration // The offset to apply to the query, this is usually becasue AWS doesn't have the values ready for the time now
+	offset     time.Duration // The offset to apply to the query, this is usually because AWS doesn't have the values ready for the time now
 	log        *log.Log      // custom logger
 }
 

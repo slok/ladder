@@ -111,7 +111,7 @@ func TestIntegrationCorrectAutoScalerRunFilterers(t *testing.T) {
 	time.Sleep(1 * time.Second)
 	as.stopForever()
 
-	// Check scalation history, one beacuse only scales first time, then the filters
+	// Check scalation history, one because only scales first time, then the filters
 	// sets the same quantity over and over again
 	expected := 20
 	if len(as.Scaler.(*testScaler).history) != expected {

@@ -136,7 +136,7 @@ type Config struct {
 	Originals map[string]string
 }
 
-// Check will check that the configuraiton is ok
+// Check will check that the configuration is ok
 func (c *Config) Check() error {
 	if len(c.Autoscalers) == 0 {
 		return fmt.Errorf("No autoscalers loaded")

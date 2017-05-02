@@ -327,7 +327,7 @@ func (a *ASG) Wait(ctx context.Context, scaledQ types.Quantity, mode types.Scali
 // remainingClosestHourLimit instance attr duration remains to finish the closing hour. For example:
 // We have remainingClosestHourLimit attr set to 10m. there are 10 machines running and want to downscale
 // to 2 machines, this should take down 8 machines, but 5 of those machines have been running for 30m and
-// the remianing 3 for 52m. This would filter to 7 machines because 60-10 = 50m, at least each machine
+// the remaining 3 for 52m. This would filter to 7 machines because 60-10 = 50m, at least each machine
 // needs to be running 50m. and only 3 met the requirement (10-3 = 7)
 func (a *ASG) filterClosestHourQ(newQ types.Quantity) (types.Quantity, error) {
 	// Before anything check if we reached to the maximum of tries without downscaling due to this filter

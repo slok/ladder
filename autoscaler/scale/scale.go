@@ -43,7 +43,7 @@ func Register(name string, c Creator) {
 	creators[name] = c
 }
 
-// UnregisterAllCreators flushes teh list of registered creators, used mainly
+// UnregisterAllCreators flushes the list of registered creators, used mainly
 // on tests
 func UnregisterAllCreators() {
 	creatorMu.Lock()
