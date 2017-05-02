@@ -18,7 +18,7 @@ const (
 	stdoutRegName = "stdout"
 )
 
-// Stdout representes an object for scaling in stdout
+// Stdout represents an object for scaling in stdout
 type Stdout struct {
 	MsgPrefix string
 

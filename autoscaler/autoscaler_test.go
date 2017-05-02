@@ -311,7 +311,7 @@ func TestGatherWinningInputMultipleInputterWithSolver(t *testing.T) {
 		want    int64
 	}{
 		// gather will add 1 to inputs and pass to arranger
-		// Arrangers will compare with current, if higher than current then add 1 to current, if lesser substract 1, nothing if equal
+		// Arrangers will compare with current, if higher than current then add 1 to current, if lesser subtract 1, nothing if equal
 		// The solver will add all the values of all the inputters
 		{
 			inputs:  []int64{9, 9, 9, 9, 9},

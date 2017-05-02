@@ -165,7 +165,7 @@ func init() {
 	prometheus.MustRegister(autoscalerDuration)
 	prometheus.MustRegister(autoscalerRunning)
 
-	log.Logger.Infof("Registed metrics on prometheus")
+	log.Logger.Infof("Registered metrics on prometheus")
 }
 
 // SetGathererQ sets the current value of the gatherer input as a gauge

@@ -17,7 +17,7 @@ type inputter struct {
 	config *config.Inputter // Inputter configuration
 	name   string           // The name of the inputter (also in the configuration)
 
-	// Our gathering and arrangment objects
+	// Our gathering and arrangement objects
 	gatherer gather.Gatherer
 	arranger arrange.Arranger
 

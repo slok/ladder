@@ -227,7 +227,7 @@ func (t *Threshold) Arrange(_ context.Context, inputQ, currentQ types.Quantity) 
 	}
 
 	newQ.Q = total
-	t.log.Debugf("New arrangment quantity: %s", newQ)
+	t.log.Debugf("New arrangement quantity: %s", newQ)
 
 	return
 }

@@ -409,7 +409,7 @@ func (a *IntervalAutoscaler) scale(newQ types.Quantity) (types.ScalingMode, erro
 					return mode, fmt.Errorf("error waiting after scalation: %s", err)
 				}
 			} else {
-				// Wait after a succesful scalation, allow timeouts
+				// Wait after a successful scalation, allow timeouts
 				waitChan := make(chan error)
 				go func() {
 					a.log.Infof("Scaler will wait until scalation confirmed...")

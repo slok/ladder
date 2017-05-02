@@ -1,6 +1,6 @@
 autoscalers:
 - name: render_amis_autoscaler
-  description: "This auto scaler will scale based on the SQS visible messages having in mind that we want to process all the queue in one hour, knowing that 1 machine can process 10 messgaes per hour, it will scale the scalation group based on thsi information"
+  description: "This auto scaler will scale based on the SQS visible messages having in mind that we want to process all the queue in one hour, knowing that 1 machine can process 10 messgaes per hour, it will scale the scalation group based on this information"
 
   scale:
     kind: aws_autoscaling_group

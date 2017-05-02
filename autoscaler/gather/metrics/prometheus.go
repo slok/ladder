@@ -147,7 +147,7 @@ func (p *PrometheusMetric) Gather(_ context.Context) (types.Quantity, error) {
 
 	// Only one sample is valid
 	if len(m) != 1 {
-		return q, fmt.Errorf("wrong samples lenght, should be one, current is: %d", len(m))
+		return q, fmt.Errorf("wrong samples length, should be one, current is: %d", len(m))
 	}
 
 	// Get the value (round the value) and if there is no metric error
