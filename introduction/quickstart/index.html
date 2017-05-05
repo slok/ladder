@@ -9,18 +9,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=10" />
-    <title>Gatherers - Ladder docs</title>
+    <title>Quickstart - Ladder docs</title>
     <meta name="generator" content="Hugo 0.17" />
 
     
     <meta name="description" content="A flexible and reliable autoscaler">
     
-    <link rel="canonical" href="https://themotion.github.io/ladder/blocks/gatherers/">
+    <link rel="canonical" href="https://themotion.github.io/ladder/introduction/quickstart/">
     
     <meta name="author" content="TheMotion">
     
 
-    <meta property="og:url" content="https://themotion.github.io/ladder/blocks/gatherers/">
+    <meta property="og:url" content="https://themotion.github.io/ladder/introduction/quickstart/">
     <meta property="og:title" content="Ladder docs">
     <meta property="og:image" content="https://themotion.github.io/ladder/img/logo.png">
     <meta name="apple-mobile-web-app-title" content="Ladder docs">
@@ -97,7 +97,7 @@
     </div>
     <div class="stretch">
       <div class="title">
-        Gatherers
+        Quickstart
       </div>
     </div>
 
@@ -476,168 +476,273 @@
 
 	<article class="article">
 		<div class="wrapper">
-			<h1>Gatherers </h1>
+			<h1>Quickstart </h1>
 
 			
 
-<h2 id="dummy">Dummy</h2>
+<p>Start making autoscalers in Ladder is very easy and fast, but if you haven&rsquo;t crafted any before
+you may feel that you don&rsquo;t know where to start, this small tutorials will guide you so you understard
+where to start and make your first autoscalers.</p>
 
-<p>Dummy gatherer always will return a constant quantity</p>
+<p>All the tutorials will use the <a href="https://hub.docker.com/r/themotion/ladder/tags/">official Docker image</a></p>
 
-<h3 id="name">Name</h3>
+<h2 id="basic-tutorial">Basic tutorial</h2>
 
-<p><code>dummy</code></p>
+<p>For a basic tutorial we will keep it simple, a small autoscaler that will set machines on a <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/AutoScalingGroup.html">AWS ASG</a>
+based on the number of messages on a <a href="https://aws.amazon.com/sqs/">AWS SQS</a> and aplying a constant factor.</p>
 
-<h3 id="options">Options</h3>
+<h3 id="global-configuration-file">Global configuration file</h3>
 
-<ul>
-<li><code>quantity</code>: The quantity to return always</li>
-</ul>
+<p>The first thing is to create <code>ladder.yml</code> file, this file has Ladder&rsquo;s global configuration:</p>
 
-<h3 id="example">Example</h3>
+<pre><code class="language-yaml">global:
+  warmup: 30s
 
-<pre><code class="language-yaml">gather:
-  kind: dummy
-  config:
-    quantity: 0
+autoscaler_files:
+  - &quot;/etc/ladder/cfg-autoscalers/tutorial1/*.yml&quot;
 </code></pre>
 
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Only used for testing</p>
-</div>
+<p>We are using default settings except the warmup, warmup setting will make that any of the autoscaler doesn&rsquo;t do anything until that duration has passed.</p>
 
-<h2 id="random">Random</h2>
+<p>Also we point to the autoscaler configuration, in this case all the files that are on <code>tutorial1</code>.</p>
 
-<p>Random gatherer will return a random number between a max and min bounds</p>
+<h3 id="autoscaler-configuration-file">Autoscaler configuration file</h3>
 
-<h3 id="name-1">Name</h3>
+<p>Now we will create our autoscaler file, note that you may have multiple autoscaler files, and also
+multiple autoscalers per file, but for this example we&rsquo;ll do it simple and use a single file and one
+autoscaler.</p>
 
-<p><code>random</code></p>
+<p>We will start creating the file block by block.</p>
 
-<h3 id="options-1">Options</h3>
+<h3 id="autoscaler-global-settings">Autoscaler global settings</h3>
 
-<ul>
-<li><code>max_limit</code>: The max limit of the random (not included)</li>
-<li><code>min_limit</code>: The min limit of the random (included)</li>
-</ul>
-
-<h3 id="example-1">Example</h3>
-
-<pre><code class="language-yaml">gather:
-  kind: random
-  config:
-    max_limit: 10
-    min_limit: 0
+<pre><code class="language-yaml">name: basic_tutorial_autoscaler_sqs_asg
+description: &gt;
+    basic tutorial autoscaler will set an AWS autoscaling group quantity based on the number of
+    messages that an AWS SQS queue has at a given point aplying a constant factor
+interval: 2m
+scaling_wait_timeout: 3m
 </code></pre>
 
-<h2 id="sqs-property">SQS property</h2>
+<p>Our autoscaler is called <code>basic_tutorial_autoscaler_sqs_asg</code> and will run every <code>2m</code> to check if it needs to upscale or downscale, as a security measure we apply a <code>3m</code> timeout to the waiting time of the scaler when it decides to scale (an scaler waits until the scalation that has been applied has completed).</p>
 
-<p>SQS gatherer will return the quantity of the number of messages of a queue, this
-number can be one of the available SQS prperties</p>
+<h3 id="autoscaler-input-settings">Autoscaler input settings</h3>
 
-<h3 id="name-2">Name</h3>
+<p>In this case our autoscaler will have only one inputter to keep it simple. The inputter will return
+the number of machines that wants based on an input, in our case the number of messages in a queue</p>
 
-<p><code>aws_sqs</code></p>
-
-<h3 id="options-2">Options</h3>
-
-<ul>
-<li><code>queue_url</code>: The SQS queue URL</li>
-<li><code>queue_property</code>: The property to get the message number, can be one of these 3:
-
-<ul>
-<li><code>ApproximateNumberOfMessages</code></li>
-<li><code>ApproximateNumberOfMessagesNotVisible</code></li>
-<li><code>ApproximateNumberOfMessagesDelayed</code></li>
-</ul></li>
-<li><code>aws_region</code>: The region of AWS where the SQS queue lives</li>
-</ul>
-
-<h3 id="example-2">Example</h3>
-
-<pre><code class="language-yaml">gather:
-  kind: aws_sqs
-  config:
-    queue_url: &quot;https://sqs.us-west-2.amazonaws.com/016386521566/slok-render-jobs&quot;
-    queue_property: &quot;ApproximateNumberOfMessages&quot;
-    aws_region: &quot;us-west-2&quot;
+<pre><code class="language-yaml">inputters:
+  - name: sqs_queue_basic_tutorial_job_number
+    description: &quot;Get quantity based on the messages on the queue aplying a constant factor&quot;
+    gather:
+      kind: aws_sqs
+      config:
+        queue_url: &quot;https://sqs.eu-west-1.amazonaws.com/xxxxxxxxxxx/basic-tutorial-queue&quot;
+        queue_property: &quot;ApproximateNumberOfMessages&quot;
+        aws_region: &quot;eu-west-1&quot;
+    arrange:
+      kind: constant_factor
+      config:
+        factor: 20
+        round_type: &quot;ceil&quot;
 </code></pre>
 
-<h2 id="cloudwatch-metric">Cloudwatch metric</h2>
+<p>This inputter has 2 subblocks, a <a href="https://themotion.github.io/ladder/blocks/gatherers/">gantherer</a> the one that gets the number of messages from the queue, and
+an <a href="https://themotion.github.io/ladder/blocks/arrangers/">arranger</a> the one that applies the logic to convert the number on messages quantity to number of machines
+desired quantity.</p>
 
-<p>Cloudwatchmetric gatherer will return a current metric of a given query for the
-last minute aggregation, this let us know curren values (approx.) about AWS metrics.</p>
+<p>In this case we will get the number of messages from the queue (in AWS SQS is known as <code>ApproximateNumberOfMessages</code>) and will apply to this number a constant factor of 20(simple division)
+always rounding up. For example:</p>
 
-<h3 id="name-3">Name</h3>
+<table>
+<thead>
+<tr>
+<th>messages</th>
+<th>machines</th>
+</tr>
+</thead>
 
-<p><code>aws_cloudwatch_metric</code></p>
+<tbody>
+<tr>
+<td>20</td>
+<td>2</td>
+</tr>
 
-<h3 id="options-3">Options</h3>
+<tr>
+<td>50</td>
+<td>3</td>
+</tr>
 
-<ul>
-<li><code>aws_region</code>: The region of AWS where the cloudwatch metrics</li>
-<li><code>metric_name</code>: The name of the metric(<code>CPUReservation</code>, <code>CPUCreditBalance</code>, <code>DiskWriteBytes</code>&hellip;)</li>
-<li><code>namespace</code>: The namespace of the metric (<code>AWS/ELB</code>, <code>AWS/EC2</code>&hellip;)</li>
-<li><code>statistic</code>: The statistic type of the metric. Check them at:     <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/cloudwatch_concepts.html#Statistic">https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/cloudwatch_concepts.html#Statistic</a></li>
-<li><code>unit</code>: The unit type of the metric, Check them at:   <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/cloudwatch_concepts.html#Unit">https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/cloudwatch_concepts.html#Unit</a></li>
-<li><code>offset</code>: 0 or negative time duration to apply to the metrics query, for example <code>-30s</code> will get the metrics from -1&rsquo;30&rdquo; to -30&rdquo; metrics from now</li>
-<li><code>dimensions</code>: dimensions are like prometheus labels, is a list of dicts having <code>name</code> and <code>value</code> with this the metric wil be filtered</li>
-</ul>
+<tr>
+<td>100</td>
+<td>5</td>
+</tr>
 
-<h3 id="example-3">Example</h3>
+<tr>
+<td>5500</td>
+<td>275</td>
+</tr>
 
-<pre><code class="language-yaml">gather:
-  kind: aws_cloudwatch_metric
-  config:
-    aws_region: &quot;us-west-2&quot;
-    metric_name: &quot;CPUReservation&quot;
-    namespace: &quot;AWS/ECS&quot;
-    statistic: &quot;Maximum&quot;
-    unit: &quot;Percent&quot;
-    offset: &quot;-30s&quot;
-    dimensions:
-    - name: &quot;ClusterName&quot;
-      value: &quot;slok-ECSCluster1-15OBYPKBNXIO6&quot;
+<tr>
+<td>54321</td>
+<td>2717</td>
+</tr>
+
+<tr>
+<td>100000</td>
+<td>5000</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="autoscaler-solver-settings">Autoscaler solver settings</h3>
+
+<p>In this case as we only have on inputter the <a href="https://themotion.github.io/ladder/blocks/solvers/">solver</a> block is not neccessary because we don&rsquo;t have
+the need to decide wich of the inputters will be the chosen one.</p>
+
+<h4 id="autoscaler-filters-settings">Autoscaler filters settings</h4>
+
+<p>We will apply 2 <a href="https://themotion.github.io/ladder/blocks/filters/">filters</a> as a filter chain. They will take the result returned by the inputter and apply
+the filters as a pipeline, first filter output will be the input of the next one and so on.</p>
+
+<pre><code class="language-yaml">filters:
+    - kind: scaling_kind_interval
+      config:
+        scale_up_duration: 2m
+        scale_down_duration: 10m
+
+    - kind: limit
+      config:
+        max: 1000
+        min: 2
 </code></pre>
 
-<h2 id="prometheus-metric">Prometheus metric</h2>
+<p>Filters will be applied in the same order as defined in the configuration file, in this case first will
+be applied the <code>scaling_kind_interval</code> filter and then <code>limit</code>.</p>
 
-<p>Prometheus metric gatherer is one of the most powerful gatherers, not because of the gatherer itself, but for
-the amazing Prometheus query API. This gatherer should work with single sample vectors, other type of results
-from Prometheus will error, for example a vector with length greater than 1 or a Matrix result.</p>
+<p>We set <code>scaling_kind_interval</code>so we don&rsquo;t have spikes of machines, this filter will wait a concrete duration
+before letting us to scale up or down, in this case we will wait at least for <code>2m</code> before scaling up (this can
+be multiple iterations  of the autoscaler without doing nothing until it satisfies <code>2m</code> in scale up mode). On the
+other hand we have <code>10m</code> to scale down, the same logic applies, it needs to be in scaling down mode for <code>10m</code> at least. As you can see we scale up fast, but scale down slowly, this is a common practice so we use the scaled up power
+in case a new spike comes, and also we don&rsquo;t disturb our platform downscaling too fast.</p>
 
-<p>Prometheus gatherer accepts different prometheus so it can fallback to a different prometheus to get the metric.
-<a href="https://prometheus.io/docs/introduction/faq/#can-prometheus-be-made-highly-available?">HA Prometheus</a> infrastructure is usually made by 2 equal prometheis that are independent one each other</p>
+<p>The next filter is the safety filter that <strong>always</strong> should be set, is optional but you should set a limit.
+In our case we want at least <code>2</code> machines running always, and tops we want <code>1000</code> (we don&rsquo;t want our company die due to an AWS invoice!)</p>
+
+<h3 id="autoscaler-scaler-settings">Autoscaler scaler settings</h3>
+
+<p>The <a href="https://themotion.github.io/ladder/blocks/scalers/">scaler</a> is the one that sets the quantity on the target, in our case an AWS ASG.</p>
+
+<pre><code class="language-yaml">scale:
+    kind: aws_autoscaling_group
+    config:
+      auto_scaling_group_name: &quot;basic-tutorial-AMIAutoScalingGroup&quot;
+      aws_region: &quot;eu-west-1&quot;
+      scale_up_wait_duration: 1m
+      scale_down_wait_duration: 5s
+</code></pre>
+
+<p>Our scaler will set <code>basic-tutorial-AMIAutoScalingGroup</code> ASG as its target, it will wait <code>1m</code> after scaling up before continuing with the next iteration and will wait <code>5s</code> before downscaling, in other words, it waits
+machines to spin up (not too much) and it doesn&rsquo;t wait after start downscaling.</p>
 
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>You should query precalculated metrics (recording rules), this will speed up the query and will be more
-readable</p>
+<p>ASG scaler will do its best so only scales down the machines next to the <code>1h</code> of utilization (by default, it will wait every machine to be running for <code>50m</code> at least), this is because AWS charges you per hour. ASG autoscaler wants to save you money!</p>
 </div>
 
-<h3 id="name-4">Name</h3>
+<h3 id="putting-all-together">Putting all together</h3>
 
-<p><code>prometheus_metric</code></p>
+<p><code>ladder.yml</code></p>
 
-<h3 id="options-4">Options</h3>
+<pre><code class="language-yaml">global:
+  warmup: 30s
 
-<ul>
-<li><code>addresses</code>: The addresses of the prometheus endpoint</li>
-<li><code>query</code>: The query that will be send to prometheus</li>
-</ul>
-
-<h3 id="example-4">Example</h3>
-
-<pre><code class="language-yaml">gather:
-  kind: prometheus_metric
-  config:
-    addresses:
-      - http://prometheus.prod.bi.themotion.lan
-      - http://prometheus2.prod.bi.themotion.lan
-      - http://prometheus3.prod.bi.themotion.lan
-    query: max(service:container_memory_usage:percent{service=&quot;prometheus&quot;})
+autoscaler_files:
+  - &quot;/etc/ladder/cfg-autoscalers/tutorial1/*.yml&quot;
 </code></pre>
+
+<p><code>basic_tutorial.yaml</code></p>
+
+<pre><code class="language-yaml">autoscalers:
+- name: basic_tutorial_autoscaler_sqs_asg
+  description: &gt;
+    basic tutorial autoscaler will set an AWS autoscaling group quantity based on the number of
+    messages that an AWS SQS queue has at a given point aplying a constant factor
+  interval: 2m
+  scaling_wait_timeout: 3m
+
+  scale:
+    kind: aws_autoscaling_group
+    config:
+      auto_scaling_group_name: &quot;basic-tutorial-AMIAutoScalingGroup&quot;
+      aws_region: &quot;eu-west-1&quot;
+      scale_up_wait_duration: 1m
+      scale_down_wait_duration: 5s
+
+  filters:
+    - kind: scaling_kind_interval
+      config:
+        scale_up_duration: 2m
+        scale_down_duration: 10m
+
+    - kind: limit
+      config:
+        max: 1000
+        min: 2
+
+  inputters:
+  - name: sqs_queue_basic_tutorial_job_number
+    description: &quot;Get quantity based on the messages on the queue aplying a constant factor&quot;
+    gather:
+      kind: aws_sqs
+      config:
+        queue_url: &quot;https://sqs.eu-west-1.amazonaws.com/xxxxxxxxxxx/basic-tutorial-queue&quot;
+        queue_property: &quot;ApproximateNumberOfMessages&quot;
+        aws_region: &quot;eu-west-1&quot;
+    arrange:
+      kind: constant_factor
+      config:
+        factor: 20
+        round_type: &quot;ceil&quot;
+</code></pre>
+
+<p>Now we need to run our autoscaler with AWS credentials:</p>
+
+<pre><code class="language-bash">docker run  \
+  --rm -it \
+  -v `pwd`/ladder.yml:/etc/ladder/ladder.yml \
+  -v `pwd`/basic_tutorial.yml:/etc/ladder/cfg-autoscalers/tutorial1/basic_tutorial.yml \
+  -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
+  -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
+  -p 9094:9094 themotion/ladder
+</code></pre>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can use <code>-dry.run</code> flag to test it before autoscale nothing.</p>
+</div>
+
+<p>It will wait the warmup before start running the autoscaler, you can access to its endpoints on port <code>9094</code>, for example: <a href="http://127.0.0.1:9094/check">http://127.0.0.1:9094/check</a> and it will give you information:</p>
+
+<pre><code class="language-json">{  
+   &quot;status&quot;:&quot;Ok&quot;,
+   &quot;uptime&quot;:&quot;1m45.514659061s&quot;,
+   &quot;check_ts&quot;:&quot;2017-04-29 08:56:35.267076739 +0000 UTC&quot;,
+   &quot;version&quot;:&quot;Ladder version 0.1.0, build master(695fa7b)&quot;,
+   &quot;healthy&quot;:{  
+      &quot;ladder_autoscaler&quot;:{  
+         &quot;basic_tutorial_autoscaler_sqs_asg&quot;:&quot;running&quot;
+      }
+   },
+   &quot;unhealthy&quot;:{  
+      &quot;ladder_autoscaler&quot;:{  
+
+      }
+   }
+}
+</code></pre>
+
+<p>And that&rsquo;s it! now your platform is autoscaled. Easy right?</p>
 
 
 			<aside class="copyright" role="note">
@@ -656,34 +761,18 @@ readable</p>
 <nav class="pagination" aria-label="Footer">
   <div class="previous">
   
-      <a href="https://themotion.github.io/ladder/blocks/arrangers/" title="Arrangers">
-        <span class="direction">
-          Previous
-        </span>
-        <div class="page">
-          <div class="button button-previous" role="button" aria-label="Previous">
-            <i class="icon icon-back"></i>
-          </div>
-          <div class="stretch">
-            <div class="title">
-              Arrangers
-            </div>
-          </div>
-        </div>
-      </a>
-  
   </div>
 
   <div class="next">
   
-      <a href="https://themotion.github.io/ladder/concepts/blocks/" title="Blocks">
+      <a href="https://themotion.github.io/ladder/operating/api/" title="API">
         <span class="direction">
           Next
         </span>
         <div class="page">
           <div class="stretch">
             <div class="title">
-              Blocks
+              API
             </div>
           </div>
           <div class="button button-next" role="button" aria-label="Next">

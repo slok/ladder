@@ -7,8 +7,282 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Released under the BSD 3-clause &#39;New&#39; or &#39;Revised&#39; license</copyright>
-    <lastBuildDate>Sun, 13 Nov 2016 10:25:52 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 29 Apr 2017 09:18:33 +0000</lastBuildDate>
     <atom:link href="https://themotion.github.io/ladder/introduction/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Quickstart</title>
+      <link>https://themotion.github.io/ladder/introduction/quickstart/</link>
+      <pubDate>Sat, 29 Apr 2017 09:18:33 +0000</pubDate>
+      
+      <guid>https://themotion.github.io/ladder/introduction/quickstart/</guid>
+      <description>
+
+&lt;p&gt;Start making autoscalers in Ladder is very easy and fast, but if you haven&amp;rsquo;t crafted any before
+you may feel that you don&amp;rsquo;t know where to start, this small tutorials will guide you so you understard
+where to start and make your first autoscalers.&lt;/p&gt;
+
+&lt;p&gt;All the tutorials will use the &lt;a href=&#34;https://hub.docker.com/r/themotion/ladder/tags/&#34;&gt;official Docker image&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;basic-tutorial&#34;&gt;Basic tutorial&lt;/h2&gt;
+
+&lt;p&gt;For a basic tutorial we will keep it simple, a small autoscaler that will set machines on a &lt;a href=&#34;http://docs.aws.amazon.com/autoscaling/latest/userguide/AutoScalingGroup.html&#34;&gt;AWS ASG&lt;/a&gt;
+based on the number of messages on a &lt;a href=&#34;https://aws.amazon.com/sqs/&#34;&gt;AWS SQS&lt;/a&gt; and aplying a constant factor.&lt;/p&gt;
+
+&lt;h3 id=&#34;global-configuration-file&#34;&gt;Global configuration file&lt;/h3&gt;
+
+&lt;p&gt;The first thing is to create &lt;code&gt;ladder.yml&lt;/code&gt; file, this file has Ladder&amp;rsquo;s global configuration:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;global:
+  warmup: 30s
+
+autoscaler_files:
+  - &amp;quot;/etc/ladder/cfg-autoscalers/tutorial1/*.yml&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We are using default settings except the warmup, warmup setting will make that any of the autoscaler doesn&amp;rsquo;t do anything until that duration has passed.&lt;/p&gt;
+
+&lt;p&gt;Also we point to the autoscaler configuration, in this case all the files that are on &lt;code&gt;tutorial1&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;autoscaler-configuration-file&#34;&gt;Autoscaler configuration file&lt;/h3&gt;
+
+&lt;p&gt;Now we will create our autoscaler file, note that you may have multiple autoscaler files, and also
+multiple autoscalers per file, but for this example we&amp;rsquo;ll do it simple and use a single file and one
+autoscaler.&lt;/p&gt;
+
+&lt;p&gt;We will start creating the file block by block.&lt;/p&gt;
+
+&lt;h3 id=&#34;autoscaler-global-settings&#34;&gt;Autoscaler global settings&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;name: basic_tutorial_autoscaler_sqs_asg
+description: &amp;gt;
+    basic tutorial autoscaler will set an AWS autoscaling group quantity based on the number of
+    messages that an AWS SQS queue has at a given point aplying a constant factor
+interval: 2m
+scaling_wait_timeout: 3m
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Our autoscaler is called &lt;code&gt;basic_tutorial_autoscaler_sqs_asg&lt;/code&gt; and will run every &lt;code&gt;2m&lt;/code&gt; to check if it needs to upscale or downscale, as a security measure we apply a &lt;code&gt;3m&lt;/code&gt; timeout to the waiting time of the scaler when it decides to scale (an scaler waits until the scalation that has been applied has completed).&lt;/p&gt;
+
+&lt;h3 id=&#34;autoscaler-input-settings&#34;&gt;Autoscaler input settings&lt;/h3&gt;
+
+&lt;p&gt;In this case our autoscaler will have only one inputter to keep it simple. The inputter will return
+the number of machines that wants based on an input, in our case the number of messages in a queue&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;inputters:
+  - name: sqs_queue_basic_tutorial_job_number
+    description: &amp;quot;Get quantity based on the messages on the queue aplying a constant factor&amp;quot;
+    gather:
+      kind: aws_sqs
+      config:
+        queue_url: &amp;quot;https://sqs.eu-west-1.amazonaws.com/xxxxxxxxxxx/basic-tutorial-queue&amp;quot;
+        queue_property: &amp;quot;ApproximateNumberOfMessages&amp;quot;
+        aws_region: &amp;quot;eu-west-1&amp;quot;
+    arrange:
+      kind: constant_factor
+      config:
+        factor: 20
+        round_type: &amp;quot;ceil&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This inputter has 2 subblocks, a &lt;a href=&#34;https://themotion.github.io/ladder/blocks/gatherers/&#34;&gt;gantherer&lt;/a&gt; the one that gets the number of messages from the queue, and
+an &lt;a href=&#34;https://themotion.github.io/ladder/blocks/arrangers/&#34;&gt;arranger&lt;/a&gt; the one that applies the logic to convert the number on messages quantity to number of machines
+desired quantity.&lt;/p&gt;
+
+&lt;p&gt;In this case we will get the number of messages from the queue (in AWS SQS is known as &lt;code&gt;ApproximateNumberOfMessages&lt;/code&gt;) and will apply to this number a constant factor of 20(simple division)
+always rounding up. For example:&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;messages&lt;/th&gt;
+&lt;th&gt;machines&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;20&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;50&lt;/td&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;5500&lt;/td&gt;
+&lt;td&gt;275&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;54321&lt;/td&gt;
+&lt;td&gt;2717&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;100000&lt;/td&gt;
+&lt;td&gt;5000&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&#34;autoscaler-solver-settings&#34;&gt;Autoscaler solver settings&lt;/h3&gt;
+
+&lt;p&gt;In this case as we only have on inputter the &lt;a href=&#34;https://themotion.github.io/ladder/blocks/solvers/&#34;&gt;solver&lt;/a&gt; block is not neccessary because we don&amp;rsquo;t have
+the need to decide wich of the inputters will be the chosen one.&lt;/p&gt;
+
+&lt;h4 id=&#34;autoscaler-filters-settings&#34;&gt;Autoscaler filters settings&lt;/h4&gt;
+
+&lt;p&gt;We will apply 2 &lt;a href=&#34;https://themotion.github.io/ladder/blocks/filters/&#34;&gt;filters&lt;/a&gt; as a filter chain. They will take the result returned by the inputter and apply
+the filters as a pipeline, first filter output will be the input of the next one and so on.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;filters:
+    - kind: scaling_kind_interval
+      config:
+        scale_up_duration: 2m
+        scale_down_duration: 10m
+
+    - kind: limit
+      config:
+        max: 1000
+        min: 2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Filters will be applied in the same order as defined in the configuration file, in this case first will
+be applied the &lt;code&gt;scaling_kind_interval&lt;/code&gt; filter and then &lt;code&gt;limit&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;We set &lt;code&gt;scaling_kind_interval&lt;/code&gt;so we don&amp;rsquo;t have spikes of machines, this filter will wait a concrete duration
+before letting us to scale up or down, in this case we will wait at least for &lt;code&gt;2m&lt;/code&gt; before scaling up (this can
+be multiple iterations  of the autoscaler without doing nothing until it satisfies &lt;code&gt;2m&lt;/code&gt; in scale up mode). On the
+other hand we have &lt;code&gt;10m&lt;/code&gt; to scale down, the same logic applies, it needs to be in scaling down mode for &lt;code&gt;10m&lt;/code&gt; at least. As you can see we scale up fast, but scale down slowly, this is a common practice so we use the scaled up power
+in case a new spike comes, and also we don&amp;rsquo;t disturb our platform downscaling too fast.&lt;/p&gt;
+
+&lt;p&gt;The next filter is the safety filter that &lt;strong&gt;always&lt;/strong&gt; should be set, is optional but you should set a limit.
+In our case we want at least &lt;code&gt;2&lt;/code&gt; machines running always, and tops we want &lt;code&gt;1000&lt;/code&gt; (we don&amp;rsquo;t want our company die due to an AWS invoice!)&lt;/p&gt;
+
+&lt;h3 id=&#34;autoscaler-scaler-settings&#34;&gt;Autoscaler scaler settings&lt;/h3&gt;
+
+&lt;p&gt;The &lt;a href=&#34;https://themotion.github.io/ladder/blocks/scalers/&#34;&gt;scaler&lt;/a&gt; is the one that sets the quantity on the target, in our case an AWS ASG.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;scale:
+    kind: aws_autoscaling_group
+    config:
+      auto_scaling_group_name: &amp;quot;basic-tutorial-AMIAutoScalingGroup&amp;quot;
+      aws_region: &amp;quot;eu-west-1&amp;quot;
+      scale_up_wait_duration: 1m
+      scale_down_wait_duration: 5s
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Our scaler will set &lt;code&gt;basic-tutorial-AMIAutoScalingGroup&lt;/code&gt; ASG as its target, it will wait &lt;code&gt;1m&lt;/code&gt; after scaling up before continuing with the next iteration and will wait &lt;code&gt;5s&lt;/code&gt; before downscaling, in other words, it waits
+machines to spin up (not too much) and it doesn&amp;rsquo;t wait after start downscaling.&lt;/p&gt;
+
+&lt;div class=&#34;admonition note&#34;&gt;
+&lt;p class=&#34;admonition-title&#34;&gt;Note&lt;/p&gt;
+&lt;p&gt;ASG scaler will do its best so only scales down the machines next to the &lt;code&gt;1h&lt;/code&gt; of utilization (by default, it will wait every machine to be running for &lt;code&gt;50m&lt;/code&gt; at least), this is because AWS charges you per hour. ASG autoscaler wants to save you money!&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&#34;putting-all-together&#34;&gt;Putting all together&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;ladder.yml&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;global:
+  warmup: 30s
+
+autoscaler_files:
+  - &amp;quot;/etc/ladder/cfg-autoscalers/tutorial1/*.yml&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;basic_tutorial.yaml&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;autoscalers:
+- name: basic_tutorial_autoscaler_sqs_asg
+  description: &amp;gt;
+    basic tutorial autoscaler will set an AWS autoscaling group quantity based on the number of
+    messages that an AWS SQS queue has at a given point aplying a constant factor
+  interval: 2m
+  scaling_wait_timeout: 3m
+
+  scale:
+    kind: aws_autoscaling_group
+    config:
+      auto_scaling_group_name: &amp;quot;basic-tutorial-AMIAutoScalingGroup&amp;quot;
+      aws_region: &amp;quot;eu-west-1&amp;quot;
+      scale_up_wait_duration: 1m
+      scale_down_wait_duration: 5s
+
+  filters:
+    - kind: scaling_kind_interval
+      config:
+        scale_up_duration: 2m
+        scale_down_duration: 10m
+
+    - kind: limit
+      config:
+        max: 1000
+        min: 2
+
+  inputters:
+  - name: sqs_queue_basic_tutorial_job_number
+    description: &amp;quot;Get quantity based on the messages on the queue aplying a constant factor&amp;quot;
+    gather:
+      kind: aws_sqs
+      config:
+        queue_url: &amp;quot;https://sqs.eu-west-1.amazonaws.com/xxxxxxxxxxx/basic-tutorial-queue&amp;quot;
+        queue_property: &amp;quot;ApproximateNumberOfMessages&amp;quot;
+        aws_region: &amp;quot;eu-west-1&amp;quot;
+    arrange:
+      kind: constant_factor
+      config:
+        factor: 20
+        round_type: &amp;quot;ceil&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now we need to run our autoscaler with AWS credentials:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;docker run  \
+  --rm -it \
+  -v `pwd`/ladder.yml:/etc/ladder/ladder.yml \
+  -v `pwd`/basic_tutorial.yml:/etc/ladder/cfg-autoscalers/tutorial1/basic_tutorial.yml \
+  -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
+  -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
+  -p 9094:9094 themotion/ladder
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;div class=&#34;admonition note&#34;&gt;
+&lt;p class=&#34;admonition-title&#34;&gt;Note&lt;/p&gt;
+&lt;p&gt;You can use &lt;code&gt;-dry.run&lt;/code&gt; flag to test it before autoscale nothing.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;It will wait the warmup before start running the autoscaler, you can access to its endpoints on port &lt;code&gt;9094&lt;/code&gt;, for example: &lt;a href=&#34;http://127.0.0.1:9094/check&#34;&gt;http://127.0.0.1:9094/check&lt;/a&gt; and it will give you information:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-json&#34;&gt;{  
+   &amp;quot;status&amp;quot;:&amp;quot;Ok&amp;quot;,
+   &amp;quot;uptime&amp;quot;:&amp;quot;1m45.514659061s&amp;quot;,
+   &amp;quot;check_ts&amp;quot;:&amp;quot;2017-04-29 08:56:35.267076739 +0000 UTC&amp;quot;,
+   &amp;quot;version&amp;quot;:&amp;quot;Ladder version 0.1.0, build master(695fa7b)&amp;quot;,
+   &amp;quot;healthy&amp;quot;:{  
+      &amp;quot;ladder_autoscaler&amp;quot;:{  
+         &amp;quot;basic_tutorial_autoscaler_sqs_asg&amp;quot;:&amp;quot;running&amp;quot;
+      }
+   },
+   &amp;quot;unhealthy&amp;quot;:{  
+      &amp;quot;ladder_autoscaler&amp;quot;:{  
+
+      }
+   }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And that&amp;rsquo;s it! now your platform is autoscaled. Easy right?&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Installing</title>
@@ -27,7 +301,11 @@ of sharing a single binary, easy and fast.&lt;/p&gt;
 
 &lt;h2 id=&#34;docker&#34;&gt;Docker&lt;/h2&gt;
 
-&lt;p&gt;TODO (when public released?)&lt;/p&gt;
+&lt;p&gt;An official Docker image is available:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ docker pull themotion/ladder
+$ docker run -p 9094:9094 themotion/ladder
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2 id=&#34;building-from-source&#34;&gt;Building from source&lt;/h2&gt;
 
@@ -38,10 +316,8 @@ of sharing a single binary, easy and fast.&lt;/p&gt;
 
 &lt;p&gt;You can also build cloning the repository:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ mkdir -p $GOPATH/src/github.com/themotion
-$ cd $GOPATH/src/github.com/themotion
-$ git clone https://github.com/themotion/ladder.git
-$ cd ladder
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ git clone https://github.com/themotion/ladder.git $GOPATH/src/github.com/themotion/ladder
+$ cd $GOPATH/src/github.com/themotion/ladder
 $ make build_release
 $ ./bin/ladder --help
 &lt;/code&gt;&lt;/pre&gt;
@@ -58,12 +334,21 @@ $ ./bin/ladder --help
 
 &lt;h2 id=&#34;what-is-ladder-for&#34;&gt;What is Ladder for?&lt;/h2&gt;
 
-&lt;p&gt;Ladder is a simple and small program that is used to autoscale &lt;em&gt;things&lt;/em&gt;, when we
-mean &lt;em&gt;things&lt;/em&gt; we are talking about any kind of stuff that can increase or decrease,
-for example, docker containers, AWS instances, simple binnary processes, files&amp;hellip;&lt;/p&gt;
+&lt;p&gt;Ladder is a simple and flexible general purpose autoscaler.&lt;/p&gt;
 
-&lt;p&gt;In a few words, Ladder can automate the process of increasing and decreasing the
-quantity of objects based on inputs.&lt;/p&gt;
+&lt;p&gt;The idea behind Ladder is to autoscale anything configuring and combining reusable &lt;a href=&#34;https://themotion.github.io/ladder/concepts/blocks/&#34;&gt;blocks&lt;/a&gt;
+of different types in a yaml file. These blocks are flexible and easy to extend, so anyone can use or develop any kind of scaling targets,
+policies or inputs.&lt;/p&gt;
+
+&lt;p&gt;Some examples that Ladder can do at this moment:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Get number of messages in a &lt;a href=&#34;https://aws.amazon.com/sqs/&#34;&gt;SQS queue&lt;/a&gt;, apply a constant factor to this input, then use this quantity to upscale or downscale the &lt;a href=&#34;http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Instances.html&#34;&gt;EC2 machines&lt;/a&gt; of an &lt;a href=&#34;http://docs.aws.amazon.com/autoscaling/latest/userguide/AutoScalingGroup.html&#34;&gt;AWS AutoscalingGroup&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Get the latency of a service from a &lt;a href=&#34;https://prometheus.io/&#34;&gt;Prometheus&lt;/a&gt; metric, if this latency is greater than 800ms, add one more instance to the actual number of instances of that service running on &lt;a href=&#34;https://aws.amazon.com/ecs/&#34;&gt;ECS&lt;/a&gt;,
+if is less than 200ms remove one instance to the running ones instead.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You want to start using it? Jump to the &lt;a href=&#34;https://themotion.github.io/ladder/introduction/quickstart/&#34;&gt;tutorial&lt;/a&gt;!&lt;/p&gt;
 
 &lt;h2 id=&#34;what-is-not-ladder-for&#34;&gt;What is not Ladder for?&lt;/h2&gt;
 
@@ -82,6 +367,31 @@ kind of target, there are other better tools for this purpouses out there.&lt;/p
 &lt;li&gt;Metrics ready (Prometheus)&lt;/li&gt;
 &lt;li&gt;Easy to deploy and set up running&lt;/li&gt;
 &lt;li&gt;Tons of third party blocks ready to use (AWS, Prometheus&amp;hellip;)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;future&#34;&gt;Future&lt;/h2&gt;
+
+&lt;p&gt;We want to add more blocks to the ones that Ladder provides by default (ECS &amp;amp; EC2 ASG), for example:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Inputs:
+
+&lt;ul&gt;
+&lt;li&gt;Get metrics from Datadog&lt;/li&gt;
+&lt;li&gt;Get number of messages from Rabbitmq queue&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Filters:
+
+&lt;ul&gt;
+&lt;li&gt;Apply statistic prediction based on a metric, previous autoscaling result, etc&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Scalers:
+
+&lt;ul&gt;
+&lt;li&gt;Kubernetes replicas&lt;/li&gt;
+&lt;li&gt;Instance VMs on  GCE&lt;/li&gt;
+&lt;li&gt;Azure virtual machines&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
     </item>

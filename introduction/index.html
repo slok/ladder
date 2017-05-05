@@ -22,7 +22,7 @@
 
     <meta property="og:url" content="https://themotion.github.io/ladder/introduction/">
     <meta property="og:title" content="Ladder docs">
-    <meta property="og:image" content="https://themotion.github.io/ladder/images/logo.png">
+    <meta property="og:image" content="https://themotion.github.io/ladder/img/logo.png">
     <meta name="apple-mobile-web-app-title" content="Ladder docs">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -136,7 +136,7 @@
     <div class="banner">
       
         <div class="logo">
-          <img src="https://themotion.github.io/ladder/images/logo.png">
+          <img src="https://themotion.github.io/ladder/img/logo.png">
         </div>
       
       <div class="name">
@@ -199,6 +199,19 @@
 <a  title="Installing" href="https://themotion.github.io/ladder/introduction/installing/">
 	
 	Installing
+</a>
+
+
+
+      
+        
+        
+
+
+
+<a  title="Quickstart" href="https://themotion.github.io/ladder/introduction/quickstart/">
+	
+	Quickstart
 </a>
 
 
@@ -461,6 +474,17 @@
 			<h1>Pages in Introduction</h1>
 
 			
+			<a href="https://themotion.github.io/ladder/introduction/quickstart/" title="Quickstart">
+				<h2>Quickstart</h2>
+			</a>
+
+			<br>
+			Start making autoscalers in Ladder is very easy and fast, but if you haven&rsquo;t crafted any before you may feel that you don&rsquo;t know where to start, this small tutorials will guide you so you understard where to start and make your first autoscalers.
+All the tutorials will use the official Docker image
+Basic tutorial For a basic tutorial we will keep it simple, a small autoscaler that will set machines on a AWS ASG based on the number of messages on a AWS SQS and aplying a constant factor.
+
+			<hr>
+			
 			<a href="https://themotion.github.io/ladder/introduction/installing/" title="Installing">
 				<h2>Installing</h2>
 			</a>
@@ -468,10 +492,9 @@
 			<br>
 			Ladder is written in Go, this makes it very portable, Go gives us the power of sharing a single binary, easy and fast.
 Precompiled binary TODO (when first version uploaded)
-Docker TODO (when public released?)
-Building from source You can build from source using go:
+Docker An official Docker image is available:
+$ docker pull themotion/ladder $ docker run -p 9094:9094 themotion/ladder  Building from source You can build from source using go:
 go get github.com/themotion/ladder  You can also build cloning the repository:
-$ mkdir -p $GOPATH/src/github.com/themotion $ cd $GOPATH/src/github.com/themotion $ git clone <a href="https://github.com/themotion/ladder.git">https://github.com/themotion/ladder.git</a> $ cd ladder $ make build_release $ .
 
 			<hr>
 			
@@ -480,9 +503,10 @@ $ mkdir -p $GOPATH/src/github.com/themotion $ cd $GOPATH/src/github.com/themotio
 			</a>
 
 			<br>
-			What is Ladder for? Ladder is a simple and small program that is used to autoscale things, when we mean things we are talking about any kind of stuff that can increase or decrease, for example, docker containers, AWS instances, simple binnary processes, files&hellip;
-In a few words, Ladder can automate the process of increasing and decreasing the quantity of objects based on inputs.
-What is not Ladder for? Ladder is not for manual scaling, to ensure that an scaling target is always at some quantity, or using Ladders metric to monitor the status of the target.
+			What is Ladder for? Ladder is a simple and flexible general purpose autoscaler.
+The idea behind Ladder is to autoscale anything configuring and combining reusable blocks of different types in a yaml file. These blocks are flexible and easy to extend, so anyone can use or develop any kind of scaling targets, policies or inputs.
+Some examples that Ladder can do at this moment:
+ Get number of messages in a SQS queue, apply a constant factor to this input, then use this quantity to upscale or downscale the EC2 machines of an AWS AutoscalingGroup Get the latency of a service from a Prometheus metric, if this latency is greater than 800ms, add one more instance to the actual number of instances of that service running on ECS, if is less than 200ms remove one instance to the running ones instead.
 
 			<hr>
 			
