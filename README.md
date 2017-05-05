@@ -55,9 +55,8 @@ We want to add more blocks to the ones that Ladder provides by default (ECS & EC
 
 ## Status
 
-Ladder has been autoscaling TheMotion platform in production for more than 6 months. We need to finish
-the documentantion like a quickstart or a tutorial, make the official Docker images and set a list of
-supported providers (at this moment EC2 & ECS only) among other things.
+Ladder has been autoscaling TheMotion platform in production for more than 6 months. Is
+stable and production ready although it needs more blocks like scalers or gatherers.
 
 ## Documentation
 
