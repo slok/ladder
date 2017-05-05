@@ -13,7 +13,7 @@ of sharing a single binary, easy and fast.
 
 ## Precompiled binary
 
-TODO (when first version uploaded)
+Precompiled binaries of releases and RCs are available for download at [Github](https://github.com/themotion/ladder/releases)
 
 ## Docker
 
