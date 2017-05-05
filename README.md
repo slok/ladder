@@ -1,6 +1,6 @@
 # Ladder [![Build Status](https://travis-ci.org/themotion/ladder.svg?branch=master)](https://travis-ci.org/themotion/ladder) [![Go Report Card](https://goreportcard.com/badge/github.com/themotion/ladder)](https://goreportcard.com/report/github.com/themotion/ladder) [![codecov](https://codecov.io/gh/themotion/ladder/branch/master/graph/badge.svg)](https://codecov.io/gh/themotion/ladder)
 
-<img src="docs/static/img/logoreadme.png" width="300">
+<img src="docs/static/img/logoreadme.png" width="500">
 
 ----
 
