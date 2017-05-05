@@ -1,5 +1,5 @@
 # The following are targers that do not exist in the filesystem as real files and should be always executed by make
-.PHONY: default deps base build dev shell start stop image test publish_coverage vet gogen build_release dep_install dep_update docs_build docs_shell serve_docs publish_docs
+.PHONY: default deps base build dev shell start stop image test publish_coverage vet gogen build_release dep_install dep_update docs_build docs_shell serve_docs publish_docs gh-release
 
 # Name of this service/application
 SERVICE_NAME := ladder
@@ -125,6 +125,9 @@ push: image-release
 	@docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD} && \
 		docker push $(IMAGE_NAME) && \
 		rm -rf ${HOME}/.docker
+
+gh-release: build
+	cd environment/dev && docker-compose run --rm $(SERVICE_NAME) /bin/bash -c './gh-release.sh'
 
 # Docs command
 docs_build:
