@@ -79,8 +79,8 @@ See [changelog](CHANGELOG.md)
 
 ## License
 
-See [license](LICENSE)
-
+* For Ladder project license see [license](LICENSE)
+* Ladder logo is propery of [Maite (maitea) Antolín](http://maitea.me/) and licensed under [Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/)
 
 ## Authors
 
