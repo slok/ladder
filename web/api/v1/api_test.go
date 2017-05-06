@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http/httptest"
 	"strings"
+	"sync"
 	"testing"
 	"time"
 
@@ -21,20 +22,25 @@ type mockAutoscaler struct {
 	wantErrCheck bool
 	running      bool
 	duration     time.Duration
+	mu           sync.Mutex
 }
 
 func (a *mockAutoscaler) Run() error {
+	a.mu.Lock()
 	a.runCntr++
+	a.mu.Unlock()
 	if a.wantErrStop {
-		return errors.New("Want stop error!")
+		return errors.New("want stop error")
 	}
 	a.running = true
 	return nil
 }
 func (a *mockAutoscaler) Stop(duration time.Duration) error {
+	a.mu.Lock()
+	defer a.mu.Unlock()
 	a.stopCntr++
 	if a.wantErrStop {
-		return errors.New("Want stop error!")
+		return errors.New("want stop error")
 	}
 	a.running = false
 	a.duration = duration
@@ -42,13 +48,15 @@ func (a *mockAutoscaler) Stop(duration time.Duration) error {
 }
 func (a *mockAutoscaler) Running() bool { return a.running }
 func (a *mockAutoscaler) CancelStop() error {
+	a.mu.Lock()
 	a.cancelCntr++
+	a.mu.Unlock()
 	a.Run()
 	return nil
 }
 func (a *mockAutoscaler) Status() (autoscaler.Status, error) {
 	if a.wantErrCheck {
-		return autoscaler.Status{}, errors.New("Want check error!")
+		return autoscaler.Status{}, errors.New("want check error")
 	}
 
 	if a.running {
@@ -148,7 +156,9 @@ func TestCancelStopAutoscaler(t *testing.T) {
 			if !ok {
 				t.Errorf("%+v\n -Autoscaler '%s' should exist, id din't", test, test.autoscaler)
 			}
-
+			// Respect counters synchronization
+			aa.mu.Lock()
+			defer aa.mu.Unlock()
 			if aa.cancelCntr <= 0 {
 				t.Errorf("%+v\n -Autoscaler '%s' stop should be cancelled at least once: %d", test, test.autoscaler, aa.runCntr)
 			}
@@ -255,6 +265,10 @@ func TestStopAutoscaler(t *testing.T) {
 			if !ok {
 				t.Errorf("%+v\n -Autoscaler '%s' should exist, id din't", test, test.autoscaler)
 			}
+
+			// Respect counters synchronization
+			aa.mu.Lock()
+			defer aa.mu.Unlock()
 
 			if aa.stopCntr <= 0 {
 				t.Errorf("%+v\n -Autoscaler '%s' should be stopped at least once: %d", test, test.autoscaler, aa.runCntr)
